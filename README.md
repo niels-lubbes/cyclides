@@ -111,7 +111,8 @@ a certificate. The existence of a certificate implies that X satifies the Cliffo
 comp[BB_, EE_, GT_] := Module[{Q, i, j, A, a, T, U},
 
     (* We compute a list of all Clifford quartets, using exhaustive search *)
-    Q = DeleteDuplicatesBy[Sort]@Select[Permutations[EE, {4}],isQuartet[#[[1]], #[[2]], #[[3]], #[[4]], BB] &];
+    Q = DeleteDuplicatesBy[Sort]@
+        Select[Permutations[EE, {4}],isQuartet[#[[1]], #[[2]], #[[3]], #[[4]], BB] &];
     If[Length[Q] == 0, Print["There exist no Clifford quartets."]];
 
     (* We compute all tuples (A,a,T,U) *)
@@ -120,7 +121,8 @@ comp[BB_, EE_, GT_] := Module[{Q, i, j, A, a, T, U},
             A = Q[[i]]; a = Q[[i, j]];
             T = Select[GT, #.M.a > 0&];
             U = Select[EE, isCross[#, A, a, BB]&];
-            Print[str /@ A, " ", str[a], " ", str /@ T, " ", str /@ U, " "," Certificate for Clifford criterion: " <> ToString[check[T, U]]];
+            Print[str /@ A, " ", str[a], " ", str /@ T, " ", str /@ U, " ",
+                " Certificate for Clifford criterion: " <> ToString[check[T, U]]];
         ];
     ];
 ];
