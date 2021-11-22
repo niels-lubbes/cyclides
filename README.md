@@ -7,7 +7,7 @@ We present Mathematica code for the automatic verification
 in the proof of Proposition 4 in the article "Translational and great Darboux cyclides".
 
 For running the code copy paste the code presented below in [Mathematica](https://www.wolfram.com/mathematica/trial/).
-The same code can be found in the Mathematica file [product.nb](https://github.com/niels-lubbes/ns_lattice/blob/master/ns_lattice/bin/product.nb).
+The same code can be found in the Mathematica file [cyclides.nb](https://raw.githubusercontent.com/niels-lubbes/cyclides/master/cyclides.nb?token=AF74RI5WHEIOYDZWOJAIARTBUUO6G).
 
 __Initialization__
 In the following code we use the notation and definitions from the article.
