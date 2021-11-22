@@ -61,7 +61,7 @@ odot[u_, v_, BB_] := Module[{W, i},
 
 If the following methods returns True, then the four elements q1, q2, q3 and q4 in E(X) form a Clifford quartet w.r.t. elements in B(X).
 Notice that if {q1,q2,q3,q4} is a Clifford quartet, then this method still may return False, as it assumes a certain ordering on the
-elements. Thus we need to call this method with all permutations of {q1,q2,q3,q4}.
+elements. Thus we need to call this method for all permutations of {q1,q2,q3,q4}.
 
 ```Mathematica
 isQuartet[q1_, q2_, q3_, q4_, BB_] :=
@@ -131,30 +131,29 @@ __Blum cyclide__
 ```Mathematica
 inv[q_] := {q[[1]], q[[2]], q[[4]], q[[3]], q[[6]], q[[5]]};   (* real structure of type 2A1 *)
 BB = {};
-EE = {e1, e2, e3, e4, e01, e02, e03, e04, e11, e12, e13, e14, ep1,
-   ep2, ep3, ep4};
+EE = {e1, e2, e3, e4, e01, e02, e03, e04, e11, e12, e13, e14, ep1, ep2, ep3, ep4};
 GT = {g0, g1, g12, g34, g2, g3};
 comp[BB, EE, GT]
 ```
 
 Output:
 
-    {e1,e2,ep3,ep4} e1 {g12,g2,g3} {e01,e11,ep2}  Certificate for Clifford criterion: False
-    {e1,e2,ep3,ep4} e2 {g12,g2,g3} {e02,e12,ep1}  Certificate for Clifford criterion: False
-    {e1,e2,ep3,ep4} ep3 {g0,g1,g34} {e4,e03,e13}  Certificate for Clifford criterion: False
-    {e1,e2,ep3,ep4} ep4 {g0,g1,g34} {e3,e04,e14}  Certificate for Clifford criterion: False
-    {e3,e4,ep1,ep2} e3 {g34,g2,g3} {e03,e13,ep4}  Certificate for Clifford criterion: False
-    {e3,e4,ep1,ep2} e4 {g34,g2,g3} {e04,e14,ep3}  Certificate for Clifford criterion: False
-    {e3,e4,ep1,ep2} ep1 {g0,g1,g12} {e2,e01,e11}  Certificate for Clifford criterion: False
-    {e3,e4,ep1,ep2} ep2 {g0,g1,g12} {e1,e02,e12}  Certificate for Clifford criterion: False
-    {e01,e02,e13,e14} e01 {g1,g34,g3} {e1,e12,ep1}  Certificate for Clifford criterion: False
-    {e01,e02,e13,e14} e02 {g1,g34,g3} {e2,e11,ep2}  Certificate for Clifford criterion: False
-    {e01,e02,e13,e14} e13 {g0,g12,g2} {e3,e04,ep3}  Certificate for Clifford criterion: False
-    {e01,e02,e13,e14} e14 {g0,g12,g2} {e4,e03,ep4}  Certificate for Clifford criterion: False
-    {e03,e04,e11,e12} e03 {g1,g12,g3} {e3,e14,ep3}  Certificate for Clifford criterion: False
-    {e03,e04,e11,e12} e04 {g1,g12,g3} {e4,e13,ep4}  Certificate for Clifford criterion: False
-    {e03,e04,e11,e12} e11 {g0,g34,g2} {e1,e02,ep1}  Certificate for Clifford criterion: False
-    {e03,e04,e11,e12} e12 {g0,g34,g2} {e2,e01,ep2}  Certificate for Clifford criterion: False
+    {e1,e2,ep3,ep4}   e1  {g12,g2,g3} {e01,e11,ep2}  Certificate for Clifford criterion: False
+    {e1,e2,ep3,ep4}   e2  {g12,g2,g3} {e02,e12,ep1}  Certificate for Clifford criterion: False
+    {e1,e2,ep3,ep4}   ep3 {g0,g1,g34} {e4,e03,e13}   Certificate for Clifford criterion: False
+    {e1,e2,ep3,ep4}   ep4 {g0,g1,g34} {e3,e04,e14}   Certificate for Clifford criterion: False
+    {e3,e4,ep1,ep2}   e3  {g34,g2,g3} {e03,e13,ep4}  Certificate for Clifford criterion: False
+    {e3,e4,ep1,ep2}   e4  {g34,g2,g3} {e04,e14,ep3}  Certificate for Clifford criterion: False
+    {e3,e4,ep1,ep2}   ep1 {g0,g1,g12} {e2,e01,e11}   Certificate for Clifford criterion: False
+    {e3,e4,ep1,ep2}   ep2 {g0,g1,g12} {e1,e02,e12}   Certificate for Clifford criterion: False
+    {e01,e02,e13,e14} e01 {g1,g34,g3} {e1,e12,ep1}   Certificate for Clifford criterion: False
+    {e01,e02,e13,e14} e02 {g1,g34,g3} {e2,e11,ep2}   Certificate for Clifford criterion: False
+    {e01,e02,e13,e14} e13 {g0,g12,g2} {e3,e04,ep3}   Certificate for Clifford criterion: False
+    {e01,e02,e13,e14} e14 {g0,g12,g2} {e4,e03,ep4}   Certificate for Clifford criterion: False
+    {e03,e04,e11,e12} e03 {g1,g12,g3} {e3,e14,ep3}   Certificate for Clifford criterion: False
+    {e03,e04,e11,e12} e04 {g1,g12,g3} {e4,e13,ep4}   Certificate for Clifford criterion: False
+    {e03,e04,e11,e12} e11 {g0,g34,g2} {e1,e02,ep1}   Certificate for Clifford criterion: False
+    {e03,e04,e11,e12} e12 {g0,g34,g2} {e2,e01,ep2}   Certificate for Clifford criterion: False
 
 
 __Perseus cyclide__
@@ -169,10 +168,10 @@ comp[BB, EE, GT]
 
 Output:
 
-    {e3,e4,ep4,ep3} e3 {g2,g3} {}  Certificate for Clifford criterion: True
-    {e3,e4,ep4,ep3} e4 {g2,g3} {}  Certificate for Clifford criterion: True
-    {e3,e4,ep4,ep3} ep4 {g0,g1} {}  Certificate for Clifford criterion: True
-    {e3,e4,ep4,ep3} ep3 {g0,g1} {}  Certificate for Clifford criterion: True
+    {e3,e4,ep4,ep3}   e3  {g2,g3} {}  Certificate for Clifford criterion: True
+    {e3,e4,ep4,ep3}   e4  {g2,g3} {}  Certificate for Clifford criterion: True
+    {e3,e4,ep4,ep3}   ep4 {g0,g1} {}  Certificate for Clifford criterion: True
+    {e3,e4,ep4,ep3}   ep3 {g0,g1} {}  Certificate for Clifford criterion: True
     {e01,e02,e11,e12} e01 {g1,g3} {}  Certificate for Clifford criterion: True
     {e01,e02,e11,e12} e02 {g1,g3} {}  Certificate for Clifford criterion: True
     {e01,e02,e11,e12} e11 {g0,g2} {}  Certificate for Clifford criterion: True
@@ -186,7 +185,6 @@ inv[q_] := {q[[1]], q[[2]], q[[4]], q[[3]], q[[6]], q[[5]]}; (* real structure o
 BB = {b13, b24, bp14, bp23};
 EE = {e1, e2, e3, e4};
 GT = {g12, g34};
-{g0.M.bp14 != 0, g1.M.b13 !=0} (* g0 and g1 are not tracing elements of G(X)*)
 comp[BB, EE, GT]
 ```
 
@@ -196,6 +194,19 @@ Output:
     {e1,e2,e3,e4} e2 {g12} {}  Certificate for Clifford criterion: True
     {e1,e2,e3,e4} e3 {g34} {}  Certificate for Clifford criterion: True
     {e1,e2,e3,e4} e4 {g34} {}  Certificate for Clifford criterion: True
+
+
+Notice that in Table 3 we have G(X)={g0,g1,g12,g34}.
+We verify that g0 and g1 are not tracing elements of G(X):
+
+```Mathematica
+{g0.M.bp14 != 0, g1.M.b13 !=0}
+```
+
+
+Output:
+
+    {True, True}
 
 __EH1 cyclide__
 
@@ -231,10 +242,10 @@ comp[BB, EE, GT]
 
 Output:
 
-    {e3,e4,e13,e14} e3 {g34} {}  Certificate for Clifford criterion: True
-    {e3,e4,e13,e14} e4 {g34} {}  Certificate for Clifford criterion: True
-    {e3,e4,e13,e14} e13 {g0} {}  Certificate for Clifford criterion: True
-    {e3,e4,e13,e14} e14 {g0} {}  Certificate for Clifford criterion: True
+    {e3,e4,e13,e14} e3  {g34} {}  Certificate for Clifford criterion: True
+    {e3,e4,e13,e14} e4  {g34} {}  Certificate for Clifford criterion: True
+    {e3,e4,e13,e14} e13 {g0}  {}  Certificate for Clifford criterion: True
+    {e3,e4,e13,e14} e14 {g0}  {}  Certificate for Clifford criterion: True
 
 __HP cyclide__
 
