@@ -10,7 +10,9 @@ For running the code copy paste the code presented below in [Mathematica](https:
 The same code can be found in the Mathematica file [cyclides.nb](https://raw.githubusercontent.com/niels-lubbes/cyclides/master/cyclides.nb?token=AF74RI5WHEIOYDZWOJAIARTBUUO6G).
 
 __Initialization__
+
 In the following code we use the notation and definitions from the article.
+
 ```Mathematica
 Remove["Global`*"] (* clear all variables *)
 
@@ -28,7 +30,12 @@ b12 = {1, 0, -1, -1, 0, 0};b13 = {1, 0, -1, 0, -1, 0};b24 = {1, 0, 0, -1, 0, -1}
 str[q_] := Module[{},If[q == e1, Return["e1"]];If[q == e2, Return["e2"]];If[q == e3, Return["e3"]];If[q == e4, Return["e4"]];If[q == e01, Return["e01"]];If[q == e02, Return["e02"]];If[q == e03, Return["e03"]];If[q == e04, Return["e04"]];If[q == e11, Return["e11"]];If[q == e12, Return["e12"]];If[q == e13, Return["e13"]];If[q == e14, Return["e14"]];If[q == ep1, Return["ep1"]];If[q == ep2, Return["ep2"]];If[q == ep3, Return["ep3"]];If[q == ep4, Return["ep4"]];If[q == g0, Return["g0"]];If[q == g1, Return["g1"]];If[q == g12, Return["g12"]];If[q == g34, Return["g34"]];If[q == g2, Return["g2"]];If[q == g3, Return["g3"]];Return[ToString[q]]];
 
 (* Matrix for quadratic form defining intersection product between classes. *)
-M = {{0, 1, 0, 0, 0, 0}, {1, 0, 0, 0, 0, 0}, {0, 0, -1, 0, 0, 0},{0, 0, 0, -1, 0, 0}, {0, 0, 0, 0, -1, 0}, {0, 0, 0, 0, 0, -1}};
+M = {{0, 1,  0,  0,  0,  0},
+     {1, 0,  0,  0,  0,  0},
+     {0, 0, -1,  0,  0,  0},
+     {0, 0,  0, -1,  0,  0},
+     {0, 0,  0,  0, -1,  0},
+     {0, 0,  0,  0,  0, -1}};
 
 (* Default real structure. We may overwrite this global method for different real structures. *)
 inv[q_] := {q[[1]], q[[2]], q[[4]], q[[3]], q[[6]], q[[5]]};
@@ -376,7 +383,12 @@ __S2 cyclide__
 
 
 ```Mathematica
-D4 = {{1, 0, 0, 0, 0, 0}, {2, 1, 1, 1, 1, 1}, {-1, 0, -1, 0, 0,0}, {-1, 0, 0, -1, 0, 0}, {-1, 0, 0, 0, -1, 0}, {-1, 0, 0, 0, 0, -1}};
+D4 = {{ 1, 0,  0,  0,  0,  0},
+      { 2, 1,  1,  1,  1,  1},
+      {-1, 0, -1,  0,  0,  0},
+      {-1, 0,  0, -1,  0,  0},
+      {-1, 0,  0,  0, -1,  0},
+      {-1, 0,  0,  0,  0, -1}};
 inv[q_] := D4.q; (* real structure of type D4 *)
 BB = {};
 EE = {e1, e2, e3, e4, e01, e02, e03, e04, e11, e12, e13, e14, ep1, ep2, ep3, ep4};
