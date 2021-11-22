@@ -28,28 +28,35 @@ b12 = {1, 0, -1, -1, 0, 0};b13 = {1, 0, -1, 0, -1, 0};b24 = {1, 0, 0, -1, 0, -1}
 
 (* Converts class to string. *)
 str[q_] := Module[{},If[q == e1, Return["e1"]];If[q == e2, Return["e2"]];If[q == e3, Return["e3"]];If[q == e4, Return["e4"]];If[q == e01, Return["e01"]];If[q == e02, Return["e02"]];If[q == e03, Return["e03"]];If[q == e04, Return["e04"]];If[q == e11, Return["e11"]];If[q == e12, Return["e12"]];If[q == e13, Return["e13"]];If[q == e14, Return["e14"]];If[q == ep1, Return["ep1"]];If[q == ep2, Return["ep2"]];If[q == ep3, Return["ep3"]];If[q == ep4, Return["ep4"]];If[q == g0, Return["g0"]];If[q == g1, Return["g1"]];If[q == g12, Return["g12"]];If[q == g34, Return["g34"]];If[q == g2, Return["g2"]];If[q == g3, Return["g3"]];Return[ToString[q]]];
+```
 
-(* Matrix for quadratic form defining intersection product between classes. *)
+The following symmetric matrix defines the quadratic form for the intersection product between classes.
+
+```Mathematica
 M = {{0, 1,  0,  0,  0,  0},
      {1, 0,  0,  0,  0,  0},
      {0, 0, -1,  0,  0,  0},
      {0, 0,  0, -1,  0,  0},
      {0, 0,  0,  0, -1,  0},
      {0, 0,  0,  0,  0, -1}};
-
-(* Default real structure. We may overwrite this global method for different real structures. *)
-inv[q_] := {q[[1]], q[[2]], q[[4]], q[[3]], q[[6]], q[[5]]};
 ```
 
 
 __Auxiliary methods__
 
-The following method is an implementation of the odot multiplication as defined in Section 5.
+The following method implements the real structure 2A1 (see Section 4). In case
+we consider the real structure 3A1 or D4, we need to overwrite this global method (see below).
+
+```Mathematica
+inv[q_] := {q[[1]], q[[2]], q[[4]], q[[3]], q[[6]], q[[5]]};
+```
+
+The method `odot` is an implementation of the odot multiplication as defined in Section 5.
 The inputs u and v are elements of E(X) or G(X). The input BB is a list consisting of the
 elements in B(X).
-We assume that B(X) is defined as one of the rows in
-Table 2 and Table 3. We remark that if X is not EY cyclide or CY cyclide,
-then a component in B(X) consists of at most 2 elements (see the sng X column in Table 2).
+We assume that B(X) is defined as one of the rows of Table 3.
+We remark that if X is not EY cyclide or CY cyclide,
+then a component in B(X) consists of at most two elements (see the sng X column in Table 2).
 We use this fact to simplify the implementation of this method.
 
 ```Mathematica
@@ -79,8 +86,7 @@ isQuartet[q1_, q2_, q3_, q4_, BB_] :=
     Return[True],(* else *) Return[False]];
 ```
 
-
-The following method checks for class e in E(X) and Clifford quartet A={a,b,c,d} whether
+The following method checks for class `e` in E(X) and Clifford quartet `A={a,b,c,d}` whether
 `e.M.a==1` and `e*b=e*c=e*d=0` where `*` stands for the odot product.
 
 ```Mathematica
@@ -93,7 +99,7 @@ isCross[e_, A_, a_, BB_] := Module[{j},
 ];
 ```
 
-The input T in the following method consists of classes in G(X).
+The input `T` in the method `check` consists of classes in G(X).
 We verify whether there exists `g` in `T` such that `g.M.u!=0` for all `u` in `U`.
 
 ```Mathematica
@@ -107,8 +113,8 @@ check[T_, U_] := Module[{i},
 
 __The main method__
 
-Suppose that B(X), E(X) and G(X) corresponds to one of the 14 rows in Table 3.
-We let BB=B(X), EE=E(X) and the list GT consist of all the tracing elements in G(X).
+Suppose that the triple (B(X),E(X),G(X)) corresponds to one of the 14 rows in Table 3.
+We let `BB`=B(X), `EE`=E(X) and the list `GT` consist of all the tracing elements in G(X).
 This method prints a list of all tuples (A,a,T,U) that satisfy the following property:
 (A,a,g,U) is a Clifford data if and only if g in T.
 For each such tuple we print True if and only if there exists g in T, such that the Clifford data (A,a,g,U) is
