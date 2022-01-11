@@ -222,7 +222,6 @@ Output:
 __ring cyclide__
 
 ```Mathematica
-inv[q_] := {q[[1]], q[[2]], q[[4]], q[[3]], q[[6]], q[[5]]}; (* real structure of type 2A1 *)
 BB = {b13, b24, bp14, bp23};
 EE = {e1, e2, e3, e4};
 GT = {g0, g1, g12, g34};
