@@ -36,52 +36,83 @@ M = {{0, 1,  0,  0,  0,  0},
      {0, 0,  0,  0,  0, -1}};
 ```
 
-
-__Auxiliary methods__
-
-The following method implements the real structure 2A1 (see Section 4). In case
-we consider the real structure 3A1 or D4, we need to overwrite this global method (see below).
+The following three matrices define the real structures of type 2A1, 3A1 and D4 (see Section 4).
 
 ```Mathematica
-inv[q_] := {q[[1]], q[[2]], q[[4]], q[[3]], q[[6]], q[[5]]};
+rs2A1 = {{1, 0, 0, 0, 0, 0}, {0, 1, 0, 0, 0, 0}, {0, 0, 0, 1, 0, 0}, {0, 0, 1, 0, 0, 0}, {0, 0, 0, 0, 0, 1}, {0, 0, 0, 0, 1, 0}};
+rs3A1 = {{0, 1, 0, 0, 0, 0}, {1, 0, 0, 0, 0, 0}, {0, 0, 0, 1, 0, 0}, {0, 0, 1, 0, 0, 0}, {0, 0, 0, 0, 0, 1}, {0, 0, 0, 0, 1, 0}};
+rsD4  = {{1, 0, 0, 0, 0, 0}, {2, 1, 1, 1, 1, 1}, {-1, 0, -1, 0, 0, 0}, {-1, 0, 0, -1, 0, 0}, {-1, 0, 0, 0, -1, 0}, {-1, 0, 0, 0, 0, -1}};
 ```
+
+The matrices act on the classes as follows.
+
+```Mathematica
+bas = {g0, g1, e1, e2, e3, e4};
+Print["2A1"];inv[q_] := rs2A1. q; {str /@ bas, str /@ inv /@ bas} // TableForm
+Print["3A1"];inv[q_] := rs3A1. q; {str /@ bas, str /@ inv /@ bas} // TableForm
+Print["D4 "];inv[q_] := rsD4. q;  {str /@ bas, str /@ inv /@ bas} // TableForm
+```
+
+Output:
+
+    2A1
+    g0   g1   e1   e2   e3   e4
+    g0   g1   e2   e1   e4   e3
+
+    2A1
+    g0   g1   e1   e2   e3   e4
+    g1   g0   e2   e1   e4   e3
+
+    D4
+    g0   g1   e1    e2    e3    e4
+    g3   g1   e11   e12   e13   e14
+
+
+__Auxiliary methods__
 
 The method `odot` is an implementation of the odot multiplication as defined in Section 5.
 The inputs `u` and `v` are elements of E(X) or G(X).
 The input `BB` is a list consisting of the elements in B(X).
 We assume that B(X) is defined as one of the rows of Table 3.
-We remark that if X is not EY cyclide or CY cyclide,
-then a component in B(X) consists of at most two elements (see the sng X column in Table 2).
-We use this fact to simplify the implementation of this method.
+A component in B(X) consists of at most 3 elements (see sng X column in Table 2).
+We use this fact to simplify the implementation of this method .
 
 ```Mathematica
-odot[u_, v_, BB_] := Module[{W, i},
-    If[u.M.v>0 , Return[1]];
-    For[i=1, i<=Length[BB], i++,
+odot[u_,v_,BB_] := Module[{W, i},
+    If[u.M.v>0, Return[1]];
+    (* check all components of cardinality one *)
+    For[i = 1, i <= Length[BB], i++,
         If[u.M.BB[[i]]>0 && v.M.BB[[i]]>0, Return[1]];
     ];
+    (* check all components of cardinality two *)
     W = Select[Subsets[BB, {2}], #[[1]].M.#[[2]]>0 &];
-    For[i=1, i<=Length[W], i++,
-        If[u.M.W[[i,1]]>0 && v.M.W[[i, 2]]>0, Return[1]];
+    For[i = 1, i <= Length[W], i++,
+        If[u.M.W[[i,1]]>0 && v.M.W[[i,2]]>0, Return[1]];
+    ];
+    (* check all components of cardinality three *)
+    W = Select[Permutations[BB, {3}], #[[1]].M.#[[2]]>0 && #[[2]].M.#[[3]]>0 &];
+    For[i = 1, i <= Length[W], i++,
+        If[u.M.W[[i, 1]]>0 && v.M.W[[i,3]]>0, Return[1]];
     ];
     Return[0];
 ];
 ```
 
-If the following methods returns True, then the four elements `q1`, `q2`, `q3` and `q4` in E(X) form a Clifford quartet w.r.t. elements in B(X).
+If the method `isQuartet` returns True, then the four elements `q1`, `q2`, `q3` and `q4` in E(X) form a Clifford quartet
+w.r.t. elements in B(X) and the matrix `rs` that defines the real structure.
 Notice that if {q1,q2,q3,q4} is a Clifford quartet, then this method still may return False, as it assumes a certain ordering on the
 elements. Thus we need to call this method for all permutations of {q1,q2,q3,q4}.
 
 ```Mathematica
-isQuartet[q1_, q2_, q3_, q4_, BB_] :=
-    If[inv[q1] == q2 && inv[q3] == q4 &&
+isQuartet[q1_, q2_, q3_, q4_, BB_, rs_] :=
+    If[ rs.q1 == q2 && rs.q3 == q4 &&
     odot[q1, q2, BB] == 0 && odot[q3, q4, BB] == 0 &&
     odot[q1, q3, BB] == 1 && odot[q3, q2, BB] == 1 &&
     odot[q2, q4, BB] == 1 && odot[q4, q1, BB] == 1,
     Return[True],(* else *) Return[False]];
 ```
 
-The following method checks for class `e` in E(X) and Clifford quartet `A={a,b,c,d}` whether
+The method `isCross` checks for class `e` in E(X) and Clifford quartet `A={a,b,c,d}` whether
 `e.M.a==1` and `e*b=e*c=e*d=0` where `*` stands for the odot product.
 
 ```Mathematica
@@ -109,18 +140,20 @@ check[T_, U_] := Module[{i},
 __The main method__
 
 Suppose that the triple (B(X),E(X),G(X)) corresponds to one of the 14 rows in Table 3.
-We let `BB`=B(X), `EE`=E(X) and the list `GT` consist of all the tracing elements in G(X).
+We let `BB`=B(X), `EE`=E(X) and the real structure `rs` is either the matrix `rs2A1`, `rs3A1` or `rsD4`.
+The list `GT` consist of all elements in G(X) that are underlined in Table 3,
+namely the classes in G(X) that are preserved by the real structure.
 The method `comp` prints a list of all tuples (A,a,T,U) that satisfy the following property:
 (A,a,g,U) is a Clifford data if and only if g in T.
 For each such tuple we print True if and only if there exists g in T, such that the Clifford data (A,a,g,U) is
 a certificate. The existence of a certificate implies that X satifies the Clifford criterion.
 
 ```Mathematica
-comp[BB_, EE_, GT_] := Module[{Q, i, j, A, a, T, U},
+comp[BB_, EE_, GT_, rs_] := Module[{Q, i, j, A, a, T, U},
 
     (* We compute a list of all Clifford quartets, using exhaustive search *)
     Q = DeleteDuplicatesBy[Sort]@
-        Select[Permutations[EE, {4}],isQuartet[#[[1]], #[[2]], #[[3]], #[[4]], BB]&];
+        Select[Permutations[EE, {4}],isQuartet[#[[1]], #[[2]], #[[3]], #[[4]], BB, rs]&];
     If[Length[Q] == 0, Print["There exist no Clifford quartets."]];
 
     (* We compute all tuples (A,a,T,U) *)
@@ -139,11 +172,10 @@ comp[BB_, EE_, GT_] := Module[{Q, i, j, A, a, T, U},
 __Blum cyclide__
 
 ```Mathematica
-inv[q_] := {q[[1]], q[[2]], q[[4]], q[[3]], q[[6]], q[[5]]};   (* real structure of type 2A1 *)
 BB = {};
 EE = {e1, e2, e3, e4, e01, e02, e03, e04, e11, e12, e13, e14, ep1, ep2, ep3, ep4};
 GT = {g0, g1, g12, g34, g2, g3};
-comp[BB, EE, GT]
+comp[BB, EE, GT, rs2A1]
 ```
 
 Output:
@@ -169,11 +201,10 @@ Output:
 __Perseus cyclide__
 
 ```Mathematica
-inv[q_] := {q[[1]], q[[2]], q[[4]], q[[3]], q[[6]], q[[5]]}; (* real structure of type 2A1 *)
 BB = {b1, b2};
 EE = {e3, e4, e01, e02, e11, e12, ep4, ep3};
 GT = {g0, g1, g2, g3};
-comp[BB, EE, GT]
+comp[BB, EE, GT, rs2A1]
 ```
 
 Output:
@@ -194,8 +225,8 @@ __ring cyclide__
 inv[q_] := {q[[1]], q[[2]], q[[4]], q[[3]], q[[6]], q[[5]]}; (* real structure of type 2A1 *)
 BB = {b13, b24, bp14, bp23};
 EE = {e1, e2, e3, e4};
-GT = {g12, g34};
-comp[BB, EE, GT]
+GT = {g0, g1, g12, g34};
+comp[BB, EE, GT, rs2A1]
 ```
 
 Output:
@@ -206,26 +237,13 @@ Output:
     {e1,e2,e3,e4} e4 {g34} {}  Certificate for Clifford criterion: True
 
 
-Notice that in Table 3 we have G(X)={g0,g1,g12,g34}.
-We verify that g0 and g1 are not tracing elements of G(X):
-
-```Mathematica
-{g0.M.bp14 != 0, g1.M.b13 !=0}
-```
-
-
-Output:
-
-    {True, True}
-
 __EH1 cyclide__
 
 ```Mathematica
-inv[q_] := {q[[1]], q[[2]], q[[4]], q[[3]], q[[6]], q[[5]]}; (* real structure of type 2A1 *)
 BB = {b12};
 EE = {e1, e2, e3, e4, e03, e04, e11, e12, e13, e14, ep1, ep2};
 GT = {g0, g1, g34, g3};
-comp[BB, EE, GT]
+comp[BB, EE, GT, rs2A1]
 ```
 
 Output:
@@ -243,11 +261,10 @@ __CH1 cyclide__
 
 
 ```Mathematica
-inv[q_] := {q[[1]], q[[2]], q[[4]], q[[3]], q[[6]], q[[5]]}; (* real structure of type 2A1 *)
 BB = {b13, b24, bp12};
 EE = {e1, e2, e3, e4, e13, e14};
 GT = {g0, g1, g34};
-comp[BB, EE, GT]
+comp[BB, EE, GT, rs2A1]
 ```
 
 Output:
@@ -260,11 +277,10 @@ Output:
 __HP cyclide__
 
 ```Mathematica
-inv[q_] := {q[[1]], q[[2]], q[[4]], q[[3]], q[[6]], q[[5]]};  (* real structure of type 2A1 *)
 BB = {b12, bp34};
 EE = {e1, e2, e3, e4, e03, e04, e11, e12};
 GT = {g0, g1};
-comp[BB, EE, GT]
+comp[BB, EE, GT, rs2A1]
 ```
 
 Output:
@@ -277,11 +293,10 @@ Output:
 __EY cyclide__
 
 ```Mathematica
-inv[q_] := {q[[1]], q[[2]], q[[4]], q[[3]], q[[6]], q[[5]]}; (* real structure of type 2A1 *)
 BB = {b12, b1, b2};
 EE = {e3, e4, e11, e12};
 GT = {g0, g1, g3};
-comp[BB, EE, GT]
+comp[BB, EE, GT, rs2A1]
 ```
 
 Output:
@@ -292,11 +307,10 @@ __CY cyclide__
 
 
 ```Mathematica
-inv[q_] := {q[[1]], q[[2]], q[[4]], q[[3]], q[[6]], q[[5]]}; (* real structure of type 2A1 *)
 BB = {b12, b1, b2, bp13, bp24};
 EE = {e3, e4, e11, e12};
 GT = {g0, g1, g3};
-comp[BB, EE, GT]
+comp[BB, EE, GT, rs2A1]
 ```
 
 Output:
@@ -306,11 +320,10 @@ Output:
 __EO cyclide__
 
 ```Mathematica
-inv[q_] := {q[[1]], q[[2]], q[[4]], q[[3]], q[[6]], q[[5]]}; (* real structure of type 2A1 *)
 BB = {b12, b34};
 EE = {e1, e2, e3, e4, e11, e12, e13, e14};
 GT = {g0, g1, g3};
-comp[BB, EE, GT]
+comp[BB, EE, GT, rs2A1]
 ```
 
 Output:
@@ -320,11 +333,10 @@ Output:
 __CO cyclide__
 
 ```Mathematica
-inv[q_] := {q[[1]], q[[2]], q[[4]], q[[3]], q[[6]], q[[5]]}; (* real structure of type 2A1 *)
 BB = {b12, b34, bp13, bp24};
 EE = {e1, e2, e3, e4};
 GT = {g0, g1};
-comp[BB, EE, GT]
+comp[BB, EE, GT, rs2A1]
 ```
 
 Output:
@@ -334,11 +346,10 @@ Output:
 __EE/EH2 cyclide__
 
 ```Mathematica
-inv[q_] := {q[[2]], q[[1]], q[[4]], q[[3]], q[[6]], q[[5]]};  (* real structure of type 3A1 *)
 BB = {b0};
 EE = {e1, e2, e3, e4, e01, e12, e02, e11, e03, e14, e04, e13};
 GT = {g12, g34};
-comp[BB, EE, GT]
+comp[BB, EE, GT, rs3A1]
 ```
 
 Output:
@@ -348,11 +359,10 @@ Output:
 __EP cyclide__
 
 ```Mathematica
-inv[q_] := {q[[2]], q[[1]], q[[4]], q[[3]], q[[6]], q[[5]]}; (* real structure of type 3A1 *)
 BB = {b13, bp24};
 EE = {e1, e2, e3, e4, e02, e11, e04, e13};
 GT = {g12, g34};
-comp[BB, EE, GT]
+comp[BB, EE, GT, rs3A1]
 ```
 
 Output:
@@ -362,11 +372,10 @@ Output:
 __S1 cyclide__
 
 ```Mathematica
-inv[q_] := {q[[2]], q[[1]], q[[4]], q[[3]], q[[6]], q[[5]]}; (* real structure of type 3A1 *)
 BB = {};
 EE = {e1, e2, e3, e4, e01, e02, e03, e04, e11, e12, e13, e14, ep1, ep2, ep3, ep4};
 GT = {g12, g34};
-comp[BB, EE, GT]
+comp[BB, EE, GT, rs3A1]
 ```
 
 Output:
@@ -384,17 +393,10 @@ __S2 cyclide__
 
 
 ```Mathematica
-D4 = {{ 1, 0,  0,  0,  0,  0},
-      { 2, 1,  1,  1,  1,  1},
-      {-1, 0, -1,  0,  0,  0},
-      {-1, 0,  0, -1,  0,  0},
-      {-1, 0,  0,  0, -1,  0},
-      {-1, 0,  0,  0,  0, -1}};
-inv[q_] := D4.q; (* real structure of type D4 *)
 BB = {};
 EE = {e1, e2, e3, e4, e01, e02, e03, e04, e11, e12, e13, e14, ep1, ep2, ep3, ep4};
 GT = {g1, g2};
-comp[BB, EE, GT]
+comp[BB, EE, GT, rsD4]
 ```
 
 Output:
@@ -404,6 +406,7 @@ Output:
 Notice that when the real structure is of type D4, then complex conjugate classes in EE intersect via M.
 
 ```Mathematica
+inv[q_] := rsD4.q;
 {str /@ EE, str /@ inv /@ EE} // TableForm
 ```
 
