@@ -13,7 +13,7 @@ The same code can be found in the Mathematica file [cyclides.nb](https://raw.git
 
 Code for the article "Translational and great Darboux cyclides" by Niels Lubbes .  We use the notation and definitions from the article .
 
-__Initialization of classes and real involutions__
+## Initialization of classes and real involutions
 
 We intialize the classes, the intersection matrix, the matrices corresponding to the involutions 2A1, 3A1 and D4 that are induced by the real structure. We also initialize a list with all possible B(X) together with the corresponding name and involutions.
 
@@ -144,7 +144,7 @@ Output:
     S2      {}                          rsD4
 
 
-__Tables 1 and 2__
+## Tables 1 and 2
 
 The input `BX` represents the list B(X). The output is the list E(X)
 and corresponds to the elements in "allEX" that are non-negative with
@@ -271,7 +271,7 @@ Output:
     S2
 
 
-__Example 1__
+## Example 1
 
 The inputs `u` is either a class or a component of B(X). If `u` is
 a class, then we replace it with a list `{u}`.Similarly, for the
@@ -345,7 +345,7 @@ Output:
 
 ![output image](https://raw.githubusercontent.com/niels-lubbes/cyclides/master/cyclides/adjacency-graphs-cyclides.png "Clifford translational surface")
 
-__Example 2__
+## Example 2
 
 The set B(X) for the ring cyclide.
 
@@ -363,7 +363,7 @@ Output:
     True
     True
 
-__Lemma 3__
+## Lemma 3
 
 The inputs `W` and `rs` represent a component of B(X) and the real
 structure,respectively. The output is True if the component is send
@@ -431,7 +431,7 @@ Output:
     True
 
 
-__Proposition 4__
+## Proposition 4
 
 The input `u` and `v` are classes and `BX` corresponds to the set B(X).
 We assume that `mult[W,u]>=0' and 'mult[W,v]>=0' for all components W in B(X).
