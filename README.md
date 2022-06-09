@@ -9,13 +9,10 @@ of some of the proofs in the article "Translational and great Darboux cyclides".
 For running the code copy paste the code presented below in [Mathematica](https://www.wolfram.com/mathematica/trial/).
 The same code can be found in the Mathematica file [cyclides.nb](https://raw.githubusercontent.com/niels-lubbes/cyclides/master/cyclides.nb?token=AF74RI5WHEIOYDZWOJAIARTBUUO6G).
 
-
-
-Code for the article "Translational and great Darboux cyclides" by Niels Lubbes .  We use the notation and definitions from the article .
-
 ## Initialization of classes and real involutions
 
 We intialize the classes, the intersection matrix, the matrices corresponding to the involutions 2A1, 3A1 and D4 that are induced by the real structure. We also initialize a list with all possible B(X) together with the corresponding name and involutions.
+We use the notation and definitions from the article .
 
 ```Mathematica
 (* Define notation for the classes in the sets B(X), E(X) and G(X). *)
