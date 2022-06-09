@@ -151,10 +151,9 @@ and corresponds to the elements in "allEX" that are non-negative with
 respect to each element in B(X).
 
 ```Mathematica
-getEX[BX_] := Return@Select[
-        allEX,
-        AllTrue[Table[#.M.BX[[i]], {i, Length[BX]}], NonNegative] &
-    ];
+getEX[BX_] := Return@
+    Select[allEX,
+        AllTrue[Table[#.M.BX[[i]], {i, Length[BX]}], NonNegative] &];
 ```
 
 The input `BX` represents the list B(X).The output is the list \
@@ -162,10 +161,9 @@ G(X) and corresponds to the elements in `allGX` that are non-negative \
 with respect to each element in B(X).
 
 ```Mathematica
-getGX[BX_] := Return@Select[
-        allGX,
-        AllTrue[Table[#.M.BX[[i]], {i, Length[BX]}], NonNegative] &
-    ];
+getGX[BX_] := Return@
+    Select[allGX,
+        AllTrue[Table[#.M.BX[[i]], {i, Length[BX]}], NonNegative] &];
 ```
 
 The input `lst` is a list of classes and `rs` is the real \
