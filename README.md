@@ -156,8 +156,8 @@ getEX[BX_] := Return@
         AllTrue[Table[#.M.BX[[i]], {i, Length[BX]}], NonNegative] &];
 ```
 
-The input `BX` represents the list B(X).The output is the list \
-G(X) and corresponds to the elements in `allGX` that are non-negative \
+The input `BX` represents the list B(X).The output is the list G(X)
+and corresponds to the elements in `allGX` that are non-negative
 with respect to each element in B(X).
 
 ```Mathematica
@@ -166,16 +166,15 @@ getGX[BX_] := Return@
         AllTrue[Table[#.M.BX[[i]], {i, Length[BX]}], NonNegative] &];
 ```
 
-The input `lst` is a list of classes and `rs` is the real \
-structure `rs2A1`, `rs3A1` or `rsD4`. The output consist of the \
-elements in `lst` that are real.
+The input `lst` is a list of classes and `rs` is the real structure `rs2A1`, `rs3A1` or `rsD4`.
+The output consist of the elements in `lst` that are real.
 
 ```Mathematica
 getReal[lst_, rs_] := Return@Select[lst, rs.# == # &];
 ```
 
-Takes as input a list BX corresponding to B(X) and outputs a list of \
-components in B(X), which is a sub list. See Section 4 for the \
+Takes as input a list BX corresponding to B(X) and outputs a list of
+components in B(X), which is a sub list. See Section 4 for the
 definition of component.
 
 ```Mathematica
