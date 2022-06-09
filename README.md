@@ -65,7 +65,7 @@ allEX = {e1, e2, e3, e4, e01, e02, e03, e04, e11, e12, e13, e14, ep1, ep2, ep3, 
 allGX = {g0, g1, g12, g34, g2, g3, g13, g24, g14, g23};
 ```
 
-The set B(X) for each row of Table 3 in Section 4 *)
+The set B(X) for each row of Table 3 in Section 4.
 
 ```Mathematica
 (* rs2A1 *)
@@ -88,7 +88,7 @@ classBX = {
    {"EY", EY, rs2A1}, {"CY", CY, rs2A1}, {"EO", EO, rs2A1},
    {"CO", CO, rs2A1}, {"EE/EH2", EEorEH2, rs3A1},
    {"EP", EP, rs3A1}, {"S1", S1, rs3A1}, {"S2", S2, rsD4}
-   };
+};
 ```
 
 The real structures act on the classes as follows.
@@ -151,8 +151,9 @@ and corresponds to the elements in "allEX" that are non-negative with
 respect to each element in B(X).
 
 ```Mathematica
-getEX[BX_] := Return@Select[allEX,
-    AllTrue[Table[# . M . BX [[i]], {i, Length[BX]}], NonNegative] &
+getEX[BX_] := Return@Select[
+        allEX,
+        AllTrue[Table[#.M.BX[[i]], {i, Length[BX]}], NonNegative] &
     ];
 ```
 
@@ -161,8 +162,9 @@ G(X) and corresponds to the elements in `allGX` that are non-negative \
 with respect to each element in B(X).
 
 ```Mathematica
-getGX[BX_] := Return@Select[allGX,
-    AllTrue[Table[# . M . BX[[i]], {i, Length[BX]}], NonNegative] &
+getGX[BX_] := Return@Select[
+        allGX,
+        AllTrue[Table[#.M.BX[[i]], {i, Length[BX]}], NonNegative] &
     ];
 ```
 
@@ -171,7 +173,7 @@ structure `rs2A1`, `rs3A1` or `rsD4`. The output consist of the \
 elements in `lst` that are real.
 
 ```Mathematica
-getReal[lst_, rs_] := Return@Select[lst, rs . # == # &];
+getReal[lst_, rs_] := Return@Select[lst, rs.# == # &];
 ```
 
 Takes as input a list BX corresponding to B(X) and outputs a list of \
@@ -181,9 +183,9 @@ definition of component.
 ```Mathematica
 getComponents[BX_, clst_ : {}] := Module[{comp},
    If[Length[BX] == 0, Return[clst]];
-   comp = Select[BX, # . M . First[BX] != 0 &];
+   comp = Select[BX, #.M.First[BX] != 0 &];
    Return@getComponents[ Complement[BX, comp], clst~Join~{comp}]
-   ];
+];
 ```
 
 For each element in `classBX` we recover the name and E(X).
@@ -194,7 +196,8 @@ Grid[Table[
         classBX[[i, 1]],
         str@getEX[classBX[[i, 2]]]
     },
-    {i, 1, Length[classBX]}], Alignment -> Left]
+    {i, 1, Length[classBX]}
+    ],Alignment -> Left]
 ```
 
 Output:
@@ -223,7 +226,8 @@ Grid[Table[
         str@getGX[classBX[[i, 2]]],
         str@getReal[getGX[classBX[[i, 2]]], classBX[[i, 3]]]
     },
-    {i, 1, Length[classBX]}], Alignment -> Left]
+    {i, 1, Length[classBX]}
+    ], Alignment -> Left]
 ```
 
 Output:
@@ -248,7 +252,8 @@ For each element in `classBX` we recover the components of B(X).
 ```Mathematica
 Grid[Table[
     {classBX[[i, 1]]}~Join~Map[str, getComponents[classBX[[i, 2]]], {2}],
-    {i, 1, Length[classBX]}], Alignment -> Left]
+    {i, 1, Length[classBX]}
+    ], Alignment -> Left]
 ```
 
 Output:
@@ -280,12 +285,12 @@ this set otherwise.
 
 ```Mathematica
 mult[u_, v_] := Module[{set},
-   If[Flatten[u] == u, Return@mult[{u}, v]];
-   If[Flatten[v] == v, Return@mult[u, {v}]];
-   set = Flatten@
-     Table[u[[i]] . M . v[[j]], {i, Length[u]}, {j, Length[v]}];
-   If[Min@set < 0, Return[-1], Return@Max@set];
-   ];
+    If[Flatten[u] == u, Return@mult[{u}, v]];
+    If[Flatten[v] == v, Return@mult[u, {v}]];
+    set = Flatten@
+        Table[u[[i]].M.v[[j]], {i, Length[u]}, {j, Length[v]}];
+    If[Min@set < 0, Return[-1], Return@Max@set];
+];
 ```
 
 Test the function mult[].
@@ -331,8 +336,8 @@ For[i = 1, i <= Length[classBX], i++,
                 VertexLabels -> Table[i -> str@vert[[i]], {i, Length[vert]}],
                 ImageSize -> 250,
                 PlotLabel -> name,
-                GraphLayout -> "CircularEmbedding"],
-            PlotStyle -> {FontSize -> 15}];
+                GraphLayout -> "CircularEmbedding"
+                ],PlotStyle -> {FontSize -> 15}];
     lst = lst~Join~{ag};
   ];
 TableForm@Partition[lst, UpTo[4]]
@@ -376,17 +381,20 @@ g in G(X) and complex components W in B(X) such that mult[g,W]>0
 
 ```Mathematica
 For[i = 1, i <= Length[classBX], i++,
-  {name, BX, rs} = classBX[[i]];
-  RGX = getReal[getGX[BX], rs]; (* real classes in GX *)
-
-  cc = Select[getComponents[BX], ! isRealComp[#, rs] &]; (*
-  complex components in B(X) *)
-
-  tab = Table[{mult[RGX[[i]], cc[[j]]], str@RGX[[i]], str@cc[[j]]},
-    {i, Length[RGX]}, {j, Length[cc]}];
-  tab = Flatten[tab, 1];
-  If[tab != {}, Print[name, ": ", Select[tab, #[[1]] > 0 &]]];
-  ];
+    {name, BX, rs} = classBX[[i]];
+    RGX = getReal[getGX[BX], rs]; (* real classes in GX *)
+    cc = Select[getComponents[BX], ! isRealComp[#, rs] &]; (* complex components in B(X) *)
+    tab = Table[
+            {
+                mult[RGX[[i]],
+                cc[[j]]],
+                str@RGX[[i]],
+                str@cc[[j]]
+            },
+            {i, Length[RGX]}, {j, Length[cc]}];
+    tab = Flatten[tab, 1];
+    If[tab != {}, Print[name, ": ", Select[tab, #[[1]] > 0 &]]];
+];
 ```
 
 Output:
@@ -434,15 +442,15 @@ The output is the odot multiplication as defined in Section 5.
 
 ```Mathematica
 odot[u_, v_, BX_] := Module[{compList, tab},
-   compList = getComponents[BX];
-   If[mult[u, v] > 0, Return[1]];
-   tab = Table[
-            mult[compList[[i]], u]*mult[compList[[i]], v],
+    compList = getComponents[BX];
+    If[mult[u, v] > 0, Return[1]];
+    tab = Table[
+            mult[compList[[i]],u] * mult[compList[[i]],v],
             {i,Length[compList]}
-         ];
-   If[Min@tab < 0, Return[0]];
-   If[Max@tab > 0, Return[1]];
-   Return[0];
+          ];
+    If[Min@tab < 0, Return[0]];
+    If[Max@tab > 0, Return[1]];
+    Return[0];
 ];
 ```
 
@@ -452,7 +460,7 @@ and `rs` is the real structure. The output is `True` if the four classes form a 
 
 ```Mathematica
 isQuartet[a_, b_, c_, d_, BX_, rs_] :=
-    If[rs . a == b && rs . c == d &&
+    If[rs.a == b && rs.c == d &&
     odot[a, b, BX] == 0 && odot[c, d, BX] == 0 &&
     odot[a, c, BX] == 1 && odot[c, b, BX] == 1 &&
     odot[b, d, BX] == 1 && odot[d, a, BX] == 1,
@@ -474,11 +482,12 @@ Verifies whether there exists g in T such that g.M.u!=0 for all u in U.
 
 ```Mathematica
 check[T_, U_] := Module[{i},
-   For[i = 1, i <= Length[T], i++,
-    If[ ! MemberQ[Map[# . M . T[[i]] &, U], 0], Return[True]];
+    For[i = 1, i <= Length[T], i++,
+        If[ !MemberQ[Map[#.M.T[[i]] &, U], 0],
+            Return[True]];
     ];
-   Return[False];
-   ];
+    Return[False];
+];
 ```
 
 The input `BX` and `rs` represent B(X) and the real structure, respectively.
