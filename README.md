@@ -343,7 +343,7 @@ Export["adjacency-graphs-cyclides.png",TableForm@Partition[lst, UpTo[4]]];
 
 Output:
 
-![output image](https://raw.githubusercontent.com/niels-lubbes/cyclides/master/cyclides/adjacency-graphs-cyclides.png "Clifford translational surface")
+![output image](https://raw.githubusercontent.com/niels-lubbes/cyclides/master/adjacency-graphs-cyclides.png "Clifford translational surface")
 
 ## Example 2
 
