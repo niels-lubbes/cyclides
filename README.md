@@ -437,7 +437,7 @@ Output:
 ## Proposition 4
 
 For the following function, the inputs `u` and `v` are classes and `BX` corresponds to the set B(X).
-We assume that `mult[W,u]>=0' and 'mult[W,v]>=0' for all components W of B(X).
+We assume that `mult[W,u]>=0` and `mult[W,v]>=0` for all components W of B(X).
 The output is the odot multiplication as defined in Section 5.
 
 ```Mathematica
