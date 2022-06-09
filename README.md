@@ -4,7 +4,7 @@
 ## Introduction
 
 We present Mathematica code for the automatic verification
-in the proof of Proposition 4 in the article "Translational and great Darboux cyclides".
+of some of the proofs in the article "Translational and great Darboux cyclides".
 
 For running the code copy paste the code presented below in [Mathematica](https://www.wolfram.com/mathematica/trial/).
 The same code can be found in the Mathematica file [cyclides.nb](https://raw.githubusercontent.com/niels-lubbes/cyclides/master/cyclides.nb?token=AF74RI5WHEIOYDZWOJAIARTBUUO6G).
