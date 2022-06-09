@@ -399,11 +399,11 @@ For[i = 1, i <= Length[classBX], i++,
 
 Output:
 
-    Perseus: {{1,g12,{b1}},{1,g12,{b2}}}
-    Ring: {{1,g0,{bp14}},{1,g0,{bp23}},{1,g1,{b13}},{1,g1,{b24}}}
-    CH1: {{1,g1,{b13}},{1,g1,{b24}}}
-    CY: {{1,g0,{bp13}},{1,g0,{bp24}}}
-    CO: {{1,g0,{bp13}},{1,g0,{bp24}}}
+    Perseus: { {1,g12,{b1}  }, {1,g12,{b2}  } }
+    Ring:    { {1,g0 ,{bp14}}, {1,g0 ,{bp23}}, {1,g1,{b13}}, {1,g1,{b24}} }
+    CH1:     { {1,g1 ,{b13} }, {1,g1 ,{b24} } }
+    CY:      { {1,g0 ,{bp13}}, {1,g0 ,{bp24}} }
+    CO:      { {1,g0 ,{bp13}}, {1,g0 ,{bp24}} }
 
 The CY cyclide case in Lemma 3c:
 
