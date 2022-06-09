@@ -273,8 +273,8 @@ Output:
 
 ## Example 1
 
-The inputs `u` is either a class or a component of B(X). If `u` is
-a class, then we replace it with a list `{u}`.Similarly, for the
+The inputs `u` of the function `mult` below is either a class or a component of B(X).
+If `u` is a class, then we replace it with a list `{u}`.Similarly, for the
 input `v`. We consider the set {a.M.b : a in u, b in v} of all
 possible products of classes in the lists u and v. If this set
 contains a negative element, then we return -1 and the maximum of
@@ -290,7 +290,7 @@ mult[u_, v_] := Module[{set},
 ];
 ```
 
-Test the function mult[].
+We now test the function `mult`:
 
 ```Mathematica
 W = {b12, b1, b2};
@@ -304,9 +304,14 @@ Output:
     {-1, -1, 1, 1, -1, 0}
 
 
-For each entry of the classification table `classBX` we construct a graph whose vertices correspond to classes in E (X) and components in B (X) . There is an edge between vertices u and v if and only if `mult[u, v] == 1`.
+Below we construct for each entry of the classification table `classBX`
+a graph whose vertices correspond to classes in E(X) and components of B(X).
+There is an edge between vertices u and v if and only if `mult[u, v] == 1`.
 
-From this graph we can recover the diagram in Example 1 as follows . We replace each vertex in E (X) with a line segment . Two line segments are either disjoint or meet at no more than one disc . The line segments corresponding to vertices u and v in E (X) meet at a disc iff one of the following two cases holds :
+From this graph we can recover the diagram in Example 1 as follows.
+We replace each vertex in E(X) with a line segment.
+Two line segments are either disjoint or meet at no more than one disc.
+The line segments corresponding to vertices u and v in E(X) meet at a disc iff one of the following two cases holds:
 
 (1) If {u, W} and {v, W} are edges for some vertex W that is a component, then the line segments corresponding to u and v meet at a disc labeled with the sum of elements in W .
 
@@ -347,7 +352,7 @@ Output:
 
 ## Example 2
 
-The set B(X) for the ring cyclide.
+Recall that `Ring` is initialized as the set B(X) for the ring cyclide.
 
 ```Mathematica
 str@getReal[getGX[Ring],rs2A1] (* get the real classes in G(X) *)
@@ -365,16 +370,16 @@ Output:
 
 ## Lemma 3
 
-The inputs `W` and `rs` represent a component of B(X) and the real
-structure,respectively. The output is True if the component is send
-to itself by the real structure.
+The inputs `W` and `rs` of the following function represent a component of B(X) and the real
+structure, respectively.
+The output is True if the component is send to itself by the real structure.
 
 ```Mathematica
 isRealComp[W_, rs_] := Return[Sort@Map[rs . # &, W] == Sort@W]
 ```
 
-Lemma 3a and Lemma3b: Go through the classification and find real classes
-g in G(X) and complex components W in B(X) such that mult[g,W]>0
+For Lemma 3a and Lemma3b we go through all possible B(X) and find real classes g in G(X)
+and complex components W in B(X) such that mult[g,W]>0
 
 ```Mathematica
 For[i = 1, i <= Length[classBX], i++,
@@ -402,7 +407,7 @@ Output:
     CY: {{1,g0,{bp13}},{1,g0,{bp24}}}
     CO: {{1,g0,{bp13}},{1,g0,{bp24}}}
 
-Lemma 3c: CY cyclide case.
+The CY cyclide case in Lemma 3c:
 
 ```Mathematica
 {W} = Select[getComponents[CY], isRealComp[#, rs2A1] &];
@@ -416,7 +421,7 @@ Output:
     {"{b12, b1, b2}", "{e3, e4}"}
     True
 
-Lemma 3c: CO cyclide case
+The CO cyclide case in Lemma 3c:
 
 ```Mathematica
 {W1, W2} = Select[getComponents[CO], isRealComp[#, rs2A1] &];
@@ -433,8 +438,8 @@ Output:
 
 ## Proposition 4
 
-The input `u` and `v` are classes and `BX` corresponds to the set B(X).
-We assume that `mult[W,u]>=0' and 'mult[W,v]>=0' for all components W in B(X).
+For the following function, the inputs `u` and `v` are classes and `BX` corresponds to the set B(X).
+We assume that `mult[W,u]>=0' and 'mult[W,v]>=0' for all components W of B(X).
 The output is the odot multiplication as defined in Section 5.
 
 ```Mathematica
@@ -451,7 +456,7 @@ odot[u_, v_, BX_] := Module[{compList, tab},
 ];
 ```
 
-The inputs `q1`, `q2`, `q3` and `q4` represent classes, the input `BX` represent the set B(X),
+For the following function, the inputs `q1`, `q2`, `q3` and `q4` represent classes, the input `BX` represent the set B(X),
 and `rs` is the real structure. The output is `True` if the four classes form a Clifford quartet and
 `False` otherwise.
 
@@ -464,8 +469,8 @@ isQuartet[a_, b_, c_, d_, BX_, rs_] :=
     Return[True],(* else *) Return[False]];
 ```
 
-The inputs `e` and `a` are classes, `A` is a list of four classes {a,b,c,d}
-containing `a` and `BX` represents B(X).
+For the following function, the inputs `e` and `a` are classes, `A` is a list of four classes {a,b,c,d}
+containing `a`, and `BX` represents B(X).
 Returns `True` if the class e belongs to U as defined at Definition 2.
 
 ```Mathematica
@@ -475,7 +480,7 @@ inU[e_, A_, a_, BX_] := Module[{b, c, d},
    ];
 ```
 
-Verifies whether there exists g in T such that g.M.u!=0 for all u in U.
+The following function verifies whether there exists g in T such that `g.M.u!=0` for all u in U.
 
 ```Mathematica
 check[T_, U_] := Module[{i},
@@ -487,8 +492,8 @@ check[T_, U_] := Module[{i},
 ];
 ```
 
-The input `BX` and `rs` represent B(X) and the real structure, respectively.
-This method prints a list of all tuples (A,a,T,U) that satisfy the following property:
+The inputs `BX` and `rs` below, represent B(X) and the real structure, respectively.
+This function prints a list of all tuples (A,a,T,U) that satisfy the following property:
 (A,a,g,U) is a Clifford data if and only if g in T.
 For each such tuple we print True if and only if there exists g in T
 such that the Clifford data (A,a,g,U) is a certificate for the Clifford criterion (see Section 5).
