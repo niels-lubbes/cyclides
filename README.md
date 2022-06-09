@@ -310,9 +310,9 @@ We replace each vertex in E(X) with a line segment.
 Two line segments are either disjoint or meet at no more than one disc.
 The line segments corresponding to vertices u and v in E(X) meet at a disc iff one of the following two cases holds:
 
-(1) If {u, W} and {v, W} are edges for some vertex W that is a component, then the line segments corresponding to u and v meet at a disc labeled with the sum of elements in W .
+* If {u, W} and {v, W} are edges for some vertex W that is a component, then the line segments corresponding to u and v meet at a disc labeled with the sum of elements in W .
 
-(2) If {u, v} is an edge and {u, W} is not an edge for all vertices W that are components, then the line segments meet at an unlabeled disc .
+* If {u, v} is an edge and {u, W} is not an edge for all vertices W that are components, then the line segments meet at an unlabeled disc .
 
 ```Mathematica
 lst = {};
