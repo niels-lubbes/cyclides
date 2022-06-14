@@ -144,7 +144,7 @@ Output:
 ## Tables 1 and 2
 
 The input `BX` represents the list B(X). The output is the list E(X)
-and corresponds to the elements in "allEX" that are non-negative with
+and corresponds to the elements in `allEX` that are non-negative with
 respect to each element in B(X).
 
 ```Mathematica
