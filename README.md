@@ -140,6 +140,33 @@ Output:
     S1      {}                          rs3A1
     S2      {}                          rsD4
 
+Print a table that specifies the intersection products between elements in B(X) and elements
+in the union of G(X) and E(X).
+
+```Mathematica
+allGEX = allGX~Join~allEX;
+tab = Table[ allBX[[i]].M.allGEX[[j]], {i,1,Length[allBX]}, {j,1,Length[allGEX]} ];
+(* display table with column and row headers *)
+TableForm@( {{x}~Join~(str/@allGEX)} ~Join~ Transpose[ {str/@allBX}~Join~Transpose@tab ] )
+```
+
+Output:
+
+    x    g0  g1  g2  g3 g12 g13 g14 g23 g24 g34  e1  e2  e3  e4 e01 e02 e03 e04 e11 e12 e13 e14 ep1 ep2 ep3 ep4
+    b12   0   1  -1   0  -1   0   0   0   0   1   1   1   0   0  -1  -1   0   0   0   0   1   1   0   0  -1  -1
+    b13   0   1  -1   0   0  -1   0   0   1   0   1   0   1   0  -1   0  -1   0   0   1   0   1   0  -1   0  -1
+    b24   0   1  -1   0   0   1   0   0  -1   0   0   1   0   1   0  -1   0  -1   1   0   1   0  -1   0  -1   0
+    b34   0   1  -1   0   1   0   0   0   0  -1   0   0   1   1   0   0  -1  -1   1   1   0   0  -1  -1   0   0
+    bp12  1   0   0  -1  -1   0   0   0   0   1   1   1   0   0   0   0   1   1  -1  -1   0   0   0   0  -1  -1
+    bp13  1   0   0  -1   0  -1   0   0   1   0   1   0   1   0   0   1   0   1  -1   0  -1   0   0  -1   0  -1
+    bp14  1   0   0  -1   0   0  -1   1   0   0   1   0   0   1   0   1   1   0  -1   0   0  -1   0  -1  -1   0
+    bp23  1   0   0  -1   0   0   1  -1   0   0   0   1   1   0   1   0   0   1   0  -1  -1   0  -1   0   0  -1
+    bp24  1   0   0  -1   0   1   0   0  -1   0   0   1   0   1   1   0   1   0   0  -1   0  -1  -1   0  -1   0
+    bp34  1   0   0  -1   1   0   0   0   0  -1   0   0   1   1   1   1   0   0   0   0  -1  -1  -1  -1   0   0
+    b0    1   1  -1  -1   0   0   0   0   0   0   1   1   1   1   0   0   0   0   0   0   0   0  -1  -1  -1  -1
+    b1    0   0   0   0   1   0   1  -1   0  -1  -1   0   1   0   1   0  -1   0   1   0  -1   0  -1   0   1   0
+    b2    0   0   0   0   1   0  -1   1   0  -1   0  -1   0   1   0   1   0  -1   0   1   0  -1   0  -1   0   1
+
 
 ## Tables 1 and 2
 
