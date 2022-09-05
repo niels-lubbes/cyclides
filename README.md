@@ -707,26 +707,16 @@ sp1[q_] := {q[[2]], q[[3]], q[[4]]}/(q[[1]] - q[[5]]);
 sp2[q_] := {q[[5]], q[[3]], q[[4]]}/(q[[1]] - q[[2]]);
 
 
-M01 = ParametricPlot3D[
-        sp1@hp[ M0.c[a], M1.c[b] ], {a, 0, 2*Pi}, {b, 0, 2*Pi},
-        Boxed -> False, Axes -> False,
-        PlotLabels -> "ring cyclide"];
-M23 = ParametricPlot3D[
-        sp2@hp[ M2.c[a], M3.c[b] ], {a, 0, 2*Pi}, {b, 0, 2*Pi},
-        Boxed -> False, Axes -> False, PlotRange -> All,
-        PlotLabels -> "Perseus cyclide"];
-M45 = ParametricPlot3D[
-        sp1@hp[ M4.c[a], M5.c[b] ], {a, 0, 2*Pi}, {b, 0, 2*Pi},
-        Boxed -> False, Axes -> False,
-        PlotLabels -> "CH1 cyclide"];
-M06 = ParametricPlot3D[
-        sp1@hp[ M0.c[a], M6.c[b] ], {a, 0, 2*Pi}, {b, 0, 2*Pi},
-        Boxed -> False, Axes -> False, PlotRange -> All,
-        PlotLabels -> Callout["degree 8 and great", Above]];
-M78 = ParametricPlot3D[
-        sp1@hp[ M7.c[a], M8.c[b]], {a, 0, 2*Pi}, {b, 0, 2*Pi},
-        Boxed -> False, Axes -> False, PlotRange -> All,
-        PlotLabels -> "degree 8 and not great"];
+M01 = ParametricPlot3D[ sp1@hp[ M0.c[a], M1.c[b] ], {a, 0, 2*Pi}, {b, 0, 2*Pi},
+    Boxed -> False, Axes -> False, PlotLabels -> "ring cyclide"];
+M23 = ParametricPlot3D[ sp2@hp[ M2.c[a], M3.c[b] ], {a, 0, 2*Pi}, {b, 0, 2*Pi},
+    Boxed -> False, Axes -> False, PlotRange -> All, PlotLabels -> "Perseus cyclide"];
+M45 = ParametricPlot3D[ sp1@hp[ M4.c[a], M5.c[b] ], {a, 0, 2*Pi}, {b, 0, 2*Pi},
+    Boxed -> False, Axes -> False, PlotLabels -> "CH1 cyclide"];
+M06 = ParametricPlot3D[ sp1@hp[ M0.c[a], M6.c[b] ], {a, 0, 2*Pi}, {b, 0, 2*Pi},
+    Boxed -> False, Axes -> False, PlotRange -> All, PlotLabels -> Callout["degree 8 and great", Above]];
+M78 = ParametricPlot3D[ sp1@hp[ M7.c[a], M8.c[b]], {a, 0, 2*Pi}, {b, 0, 2*Pi},
+    Boxed -> False, Axes -> False, PlotRange -> All, PlotLabels -> "degree 8 and not great"];
 GraphicsGrid[{{M01, M23, M45}, {M06, M78}}, ImageSize -> Large]
 Export["translational-celestial-surfaces.png", %];
 ```
