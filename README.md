@@ -799,8 +799,8 @@ analyzeSurface[A_, B_] := Module[
         *)
         rX = {x0 - c0, x1 - c1, x2 - c2, x3 - c3, x4 - c4};
         gb = GroebnerBasis[
-                rX~Join~eqA~Join~eqB,
-                {x0, x1, x2, x3, x4}, {a0, a1, a2, a3, a4, b0, b1, b2, b3, b4}];
+            rX~Join~eqA~Join~eqB,
+            {x0, x1, x2, x3, x4}, {a0, a1, a2, a3, a4, b0, b1, b2, b3, b4}];
         eqX = Select[gb, deg[#] == 2 &];
         Print["Quadratic equations for X: ", eqX];
         p = hp[A.c[a], B.c[b]];
@@ -814,14 +814,11 @@ analyzeSurface[A_, B_] := Module[
         of the Jacobian matrix equal to zero.
         *)
         mins = Flatten@Minors[
-                    {Grad[eqX[[1]], {x0, x1, x2, x3, x4}],
-                    Grad[eqX[[2]], {x0, x1, x2, x3, x4}]},
-                2]; (* 2x2 minors of Jacobian matrix *)
+            {Grad[eqX[[1]], {x0, x1, x2, x3, x4}],
+             Grad[eqX[[2]], {x0, x1, x2, x3, x4}]}, 2]; (* 2x2 minors of Jacobian matrix *)
         sol = Solve[
-                    Table[mins[[i]] == 0, {i, 1, Length[mins]}]
-                    ~Join~
-                    {eqX[[1]] == 0, eqX[[2]] == 0},
-                {x0, x1, x2, x3, x4}];
+            Table[mins[[i]] == 0, {i, 1, Length[mins]}] ~Join~
+            {eqX[[1]] == 0, eqX[[2]] == 0}, {x0, x1, x2, x3, x4}];
         sol = Select[sol, # != {x0 -> 0, x1 -> 0, x2 -> 0, x3 -> 0, x4 -> 0} &];
         Print["Isolated singularities of X: ", sol];
         If[Length[sol] >= 4,
