@@ -764,7 +764,7 @@ analyzeSurface[A_, B_] := Module[
         A.c[a], " ", Drop[A.{1, 0, 0, 0, 0}, 1] == {0, 0, 0, 0}, " , ",
         B.c[b], " ", Drop[B.{1, 0, 0, 0, 0}, 1] == {0, 0, 0, 0}];
     Print["Surface X is parametrized by hp[A.c[a],B.c[b]]=",
-        Simplify[ hp[A.c[a], B.c[b]] /. {Cos[a] -> ca, Sin[a] -> sa, Cos[b] -> cb, Sin[b] -> sb}]];
+        Simplify[ hp[A.c[a], B.c[b]] /. {Cos[a]->ca,Sin[a]->sa,Cos[b]->cb,Sin[b]->sb}]];
 
     (*
     construct implicit equations for the circles A.c[a] and B.c[b] and resulting surface X
@@ -772,24 +772,23 @@ analyzeSurface[A_, B_] := Module[
     {u0, u1, u2, u3, u4} = A.{0, 0, 0, 1, 0};
     {v0, v1, v2, v3, v4} = A.{0, 0, 0, 0, 1};
     eqA = {-a0^2 + a1^2 + a2^2 + a3^2 + a4^2,
-            u0*a0 + u1*a1 + u2*a2 + u3*a3 + u4*a4,
-            v0*a0 + v1*a1 + v2*a2 + v3*a3 + v4*a4};
+        u0*a0 + u1*a1 + u2*a2 + u3*a3 + u4*a4,
+        v0*a0 + v1*a1 + v2*a2 + v3*a3 + v4*a4};
     {u0, u1, u2, u3, u4} = B.{0, 0, 0, 1, 0};
     {v0, v1, v2, v3, v4} = B.{0, 0, 0, 0, 1};
     eqB = {-b0^2 + b1^2 + b2^2 + b3^2 + b4^2,
-            u0*b0 + u1*b1 + u2*b2 + u3*b3 + u4*b4,
-            v0*b0 + v1*b1 + v2*b2 + v3*b3 + v4*b4};
+        u0*b0 + u1*b1 + u2*b2 + u3*b3 + u4*b4,
+        v0*b0 + v1*b1 + v2*b2 + v3*b3 + v4*b4};
     {c0, c1, c2, c3, c4} = hp[{a0, a1, a2, a3, a4}, {b0, b1, b2, b3, b4}];
 
     (*
     compute equation and degree of the stereographic projection Z
     *)
     rZ = {y0 - (c0 + c1), y1 - c2, y2 - c3, y3 - c4};
-    eqZ = First@GroebnerBasis[
-            rZ~Join~eqA~Join~eqB, {y0, y1, y2, y3}, {a0, a1, a2, a3, a4, b0, b1, b2, b3, b4}];
+    eqZ = First@GroebnerBasis[ rZ~Join~eqA~Join~eqB,
+        {y0, y1, y2, y3}, {a0, a1, a2, a3, a4, b0, b1, b2, b3, b4}];
     d = deg[eqZ];
-    Print["Degree and equation of a stereographic projection of X: ",
-         {d, eqZ}];
+    Print["Degree and equation of a stereographic projection of X: ", {d, eqZ}];
     Print["Surface X is a Darboux cyclide: ", d <= 4];
 
     If[d <= 4,
@@ -798,8 +797,7 @@ analyzeSurface[A_, B_] := Module[
         Compute implicit equations for X using Groebner basis.
         *)
         rX = {x0 - c0, x1 - c1, x2 - c2, x3 - c3, x4 - c4};
-        gb = GroebnerBasis[
-            rX~Join~eqA~Join~eqB,
+        gb = GroebnerBasis[ rX~Join~eqA~Join~eqB,
             {x0, x1, x2, x3, x4}, {a0, a1, a2, a3, a4, b0, b1, b2, b3, b4}];
         eqX = Select[gb, deg[#] == 2 &];
         Print["Quadratic equations for X: ", eqX];
@@ -819,7 +817,7 @@ analyzeSurface[A_, B_] := Module[
         sol = Solve[
             Table[mins[[i]] == 0, {i, 1, Length[mins]}] ~Join~
             {eqX[[1]] == 0, eqX[[2]] == 0}, {x0, x1, x2, x3, x4}];
-        sol = Select[sol, # != {x0 -> 0, x1 -> 0, x2 -> 0, x3 -> 0, x4 -> 0} &];
+        sol = Select[sol, # != {x0->0,x1->0,x2->0,x3->0,x4->0}&];
         Print["Isolated singularities of X: ", sol];
         If[Length[sol] >= 4, Print["Surface X must be a ring cyclide."]];
         If[Length[sol] == 3, Print["Surface X must be a CH1 cyclide."]];
