@@ -821,12 +821,9 @@ analyzeSurface[A_, B_] := Module[
             {eqX[[1]] == 0, eqX[[2]] == 0}, {x0, x1, x2, x3, x4}];
         sol = Select[sol, # != {x0 -> 0, x1 -> 0, x2 -> 0, x3 -> 0, x4 -> 0} &];
         Print["Isolated singularities of X: ", sol];
-        If[Length[sol] >= 4,
-            Print["Surface X must be a ring cyclide."]];
-        If[Length[sol] == 3,
-            Print["Surface X must be a CH1 cyclide."]];
-        If[Length[sol] == 2,
-            Print["Surface X must be a Perseus cyclide."]];
+        If[Length[sol] >= 4, Print["Surface X must be a ring cyclide."]];
+        If[Length[sol] == 3, Print["Surface X must be a CH1 cyclide."]];
+        If[Length[sol] == 2, Print["Surface X must be a Perseus cyclide."]];
 
     ]; (* endif *)
    Print["----------"];
