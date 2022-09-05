@@ -372,7 +372,7 @@ Export["adjacency-graphs-cyclides.png",TableForm@Partition[lst, UpTo[4]]];
 
 Output:
 
-![output image](https://raw.githubusercontent.com/niels-lubbes/cyclides/master/adjacency-graphs-cyclides.png "Clifford translational surface")
+![output image](https://raw.githubusercontent.com/niels-lubbes/cyclides/master/adjacency-graphs-cyclides.png "Adjacency graphs for Darboux cyclides")
 
 ## Example 2
 
@@ -661,4 +661,302 @@ Output:
     -------
     There exist no Clifford quartets.
 
+
+## Example 20
+
+We clear all variables and initialize matrices corresponding to Moebius transformations of the projective 3-sphere,
+the Hamiltonian product and stereographic projections.
+
+```Mathematica
+Remove["Global`*"]
+M0 = {{1, 0, 0, 0, 0}, {0, 1, 0, 0, 0}, {0, 0, 1, 0, 0}, {0, 0, 0, 1, 0}, {0, 0, 0, 0, 1}};
+M1 = {{5, 0, 0, 0, 0}, {0, 5, 0, 0, 0}, {0, 0, 4, -3, 0}, {0, 0, 3, 4, 0}, {0, 0, 0, 0, 5}};
+M2 = {{3, 0, 0, -2, -2}, {0, 1, 0, 0, 0}, {0, 0, 1, 0, 0}, {-2, 0, 0, 1, 2}, {2, 0, 0, -2, -1}};
+M3 = {{3, 0, 0, 2, -1}, {0, 2, 0, 0, 0}, {0, 0, 2, 0, 0}, {2, 0, 0, 2, -2}, {1, 0, 0, 2, 1}};
+M4 = {{3, -2, 0, 0, -1}, {-2, 2, 0, 0, 2}, {0, 0, 2, 0, 0}, {0, 0, 0, 2, 0}, {1, -2, 0, 0, 1}};
+M5 = {{3, 2, 0, 0, -1}, {2, 2, 0, 0, -2}, {0, 0, 2, 0, 0}, {0, 0, 0, 2, 0}, {1, 2, 0, 0, 1}};
+M6 = {{17, 12, 0, 0, -9}, {12, 8, 0, 0, -12}, {0, 0, 8, 0, 0}, {0, 0, 0, 8, 0}, {9, 12, 0, 0, -1}};
+M7 = {{3, -2, 0, 0, -1}, {2, -2, 0, 0, -2}, {0, 0, -2, 0, 0}, {0, 0, 0, 2, 0}, {1, -2, 0, 0, 1}};
+M8 = {{3, 2, 0, 0, -1}, {2, 2, 0, 0, -2}, {0, 0, 2, 0, 0}, {0, 0, 0, 2, 0}, {1, 2, 0, 0, 1}};
+```
+
+We plot examples of Cliffordian surfaces that are stereographic projections of surfaces
+parametrized by `hp[A.c[a],B.c[b]`, where `hp[x_,y_]` is the Hamiltonian product and
+`c[t_]` is some fixed great circle, and `A` and `B` are matrices corresponding to Moebius transformations.
+
+```Mathematica
+(* Hamiltonian product *)
+hp[x_, y_] := {
+    x[[1]]*y[[1]],
+    x[[2]]*y[[2]] - x[[3]]*y[[3]] - x[[4]]*y[[4]] - x[[5]]*y[[5]],
+    x[[2]]*y[[3]] + x[[3]]*y[[2]] + x[[4]]*y[[5]] - x[[5]]*y[[4]],
+    x[[2]]*y[[4]] + x[[4]]*y[[2]] + x[[5]]*y[[3]] - x[[3]]*y[[5]],
+    x[[2]]*y[[5]] + x[[5]]*y[[2]] + x[[3]]*y[[4]] - x[[4]]*y[[3]]
+    };
+
+(* Stereographic projections from the *)
+sp1[q_] := {q[[2]], q[[3]], q[[4]]}/(q[[1]] - q[[5]]);
+sp2[q_] := {q[[5]], q[[3]], q[[4]]}/(q[[1]] - q[[2]]);
+
+(* Parametrization of a great circle in the projective 3-sphere. *)
+c[t_] := {1, Cos[t], Sin[t], 0, 0};
+
+M01 = ParametricPlot3D[
+        sp1@hp[ M0.c[a], M1.c[b] ], {a, 0, 2*Pi}, {b, 0, 2*Pi},
+        Boxed -> False, Axes -> False,
+        PlotLabels -> "ring cyclide"];
+M23 = ParametricPlot3D[
+        sp2@hp[ M2.c[a], M3.c[b] ], {a, 0, 2*Pi}, {b, 0, 2*Pi},
+        Boxed -> False, Axes -> False, PlotRange -> All,
+        PlotLabels -> "Perseus cyclide"];
+M45 = ParametricPlot3D[
+        sp1@hp[ M4.c[a], M5.c[b] ], {a, 0, 2*Pi}, {b, 0, 2*Pi},
+        Boxed -> False, Axes -> False,
+        PlotLabels -> "CH1 cyclide"];
+M06 = ParametricPlot3D[
+        sp1@hp[ M0.c[a], M6.c[b] ], {a, 0, 2*Pi}, {b, 0, 2*Pi},
+        Boxed -> False, Axes -> False, PlotRange -> All,
+        PlotLabels -> Callout["degree 8 and great", Above]];
+M78 = ParametricPlot3D[
+        sp1@hp[ M7.c[a], M8.c[b]], {a, 0, 2*Pi}, {b, 0, 2*Pi},
+        Boxed -> False, Axes -> False, PlotRange -> All,
+        PlotLabels -> "degree 8 and not great"];
+GraphicsGrid[{{M01, M23, M45}, {M06, M78}}, ImageSize -> Large]
+Export["translational-celestial-surfaces.png", %];
+```
+
+Output:
+
+![output image](https://raw.githubusercontent.com/niels-lubbes/cyclides/master/translational-celestial-surfaces.png "Translational celestial surfaces")
+
+The following function is used to analyze the degree and singular locus of surfaces
+that are contructed as  `hp[A.c[a],B.c[b]`, where `A` and `B` are 5x5 matrices.
+We verify that `A` and `B` define Moebius tranformations and determine
+whether the circles `A.c[t]` and `B.c[t]` are great.
+
+```Mathematica
+(*
+Computes degree of multivariate polynomial.
+*)
+deg[p_] := Max[Plus @@@ CoefficientRules[#][[All, 1]]] &@p;
+
+(*
+Takes as input matrices `A` and `B` that correspond to Moebius transformations,
+and prints properties of the surface X that is parametrized by `hp[A.c[a],B.c[b]]`.
+We abbreviate Cos[a], Sin[a], Cos[b], Sin[b] by ca, sa, cb, sb, respectively.
+*)
+analyzeSurface[A_, B_] := Module[
+    {J, u0, u1, u2, u3, u4, v0, v1, v2, v3, v4,
+    a0, a1, a2, a3, a4, b0, b1, b2, b3, b4, c0, c1, c2, c3, c4,
+    eqA, eqB, eqX, eqZ, rX, rZ, d, gb, p, mins, rep, sol},
+
+    (*
+    Check whether `A` and `B` define Moebius tranformations and
+    whether the circles `A.c[t]` and `B.c[t]` are great.
+    *)
+    Print["A =", A];
+    Print["B =", B];
+    J = DiagonalMatrix[{-1, 1, 1, 1, 1}];
+    u0 = Transpose[A].J.A; v0 = Transpose[B].J.B;
+    Print["Check whether A and B define Moebius transformations: ",
+        {u0 == u0[[2, 2]]*J, v0 == v0[[5, 5]]*J}];
+    Print["Circles A.c[a] and B.c[b] and whether they are great: ",
+        A.c[a], " ", Drop[A.{1, 0, 0, 0, 0}, 1] == {0, 0, 0, 0}, " , ",
+        B.c[b], " ", Drop[B.{1, 0, 0, 0, 0}, 1] == {0, 0, 0, 0}];
+    Print["Surface X is parametrized by hp[A.c[a],B.c[b]]=",
+        Simplify[ hp[A.c[a], B.c[b]] /. {Cos[a] -> ca, Sin[a] -> sa, Cos[b] -> cb, Sin[b] -> sb}]];
+
+    (*
+    construct implicit equations for the circles A.c[a] and B.c[b] and resulting surface X
+    *)
+    {u0, u1, u2, u3, u4} = A.{0, 0, 0, 1, 0};
+    {v0, v1, v2, v3, v4} = A.{0, 0, 0, 0, 1};
+    eqA = {-a0^2 + a1^2 + a2^2 + a3^2 + a4^2,
+            u0*a0 + u1*a1 + u2*a2 + u3*a3 + u4*a4,
+            v0*a0 + v1*a1 + v2*a2 + v3*a3 + v4*a4};
+    {u0, u1, u2, u3, u4} = B.{0, 0, 0, 1, 0};
+    {v0, v1, v2, v3, v4} = B.{0, 0, 0, 0, 1};
+    eqB = {-b0^2 + b1^2 + b2^2 + b3^2 + b4^2,
+            u0*b0 + u1*b1 + u2*b2 + u3*b3 + u4*b4,
+            v0*b0 + v1*b1 + v2*b2 + v3*b3 + v4*b4};
+    {c0, c1, c2, c3, c4} = hp[{a0, a1, a2, a3, a4}, {b0, b1, b2, b3, b4}];
+
+    (*
+    compute equation and degree of the stereographic projection Z
+    *)
+    rZ = {y0 - (c0 + c1), y1 - c2, y2 - c3, y3 - c4};
+    eqZ = First@GroebnerBasis[
+            rZ~Join~eqA~Join~eqB, {y0, y1, y2, y3}, {a0, a1, a2, a3, a4, b0, b1, b2, b3, b4}];
+    d = deg[eqZ];
+    Print["Degree and equation of a stereographic projection of X: ",
+         {d, eqZ}];
+    Print["Surface X is a Darboux cyclide: ", d <= 4];
+
+    If[d <= 4,
+
+        (*
+        Compute implicit equations for X using Groebner basis.
+        *)
+        rX = {x0 - c0, x1 - c1, x2 - c2, x3 - c3, x4 - c4};
+        gb = GroebnerBasis[
+                rX~Join~eqA~Join~eqB,
+                {x0, x1, x2, x3, x4}, {a0, a1, a2, a3, a4, b0, b1, b2, b3, b4}];
+        eqX = Select[gb, deg[#] == 2 &];
+        Print["Quadratic equations for X: ", eqX];
+        p = hp[A.c[a], B.c[b]];
+        rep = {x0->p[[1]], x1->p[[2]], x2->p[[3]], x3->p[[4]], x4->p[[5]]};
+        Print["Check equations by substituting parametrizations: ",
+            {Simplify[eqX[[1]] /. rep] == 0,
+             Simplify[eqX[[2]] /. rep] == 0}];
+
+        (*
+        Computing isolating singularieties by equating the 2x2 minors
+        of the Jacobian matrix equal to zero.
+        *)
+        mins = Flatten@Minors[
+                    {Grad[eqX[[1]], {x0, x1, x2, x3, x4}],
+                    Grad[eqX[[2]], {x0, x1, x2, x3, x4}]},
+                2]; (* 2x2 minors of Jacobian matrix *)
+        sol = Solve[
+                    Table[mins[[i]] == 0, {i, 1, Length[mins]}]
+                    ~Join~
+                    {eqX[[1]] == 0, eqX[[2]] == 0},
+                {x0, x1, x2, x3, x4}];
+        sol = Select[sol, # != {x0 -> 0, x1 -> 0, x2 -> 0, x3 -> 0, x4 -> 0} &];
+        Print["Isolated singularities of X: ", sol];
+        If[Length[sol] >= 4,
+            Print["Surface X must be a ring cyclide."]];
+        If[Length[sol] == 3,
+            Print["Surface X must be a CH1 cyclide."]];
+        If[Length[sol] == 2,
+            Print["Surface X must be a Perseus cyclide."]];
+
+    ]; (* endif *)
+   Print["----------"];
+]; (* end analyzeSurface[...] function *)
+```
+
+We analyze the surfaces using the matrices `M0,...,M8`.
+
+```Mathematica
+analyzeSurface[M0, M1]
+```
+
+Output:
+
+```
+A ={{1,0,0,0,0},{0,1,0,0,0},{0,0,1,0,0},{0,0,0,1,0},{0,0,0,0,1}}
+B ={{5,0,0,0,0},{0,5,0,0,0},{0,0,4,-3,0},{0,0,3,4,0},{0,0,0,0,5}}
+Check whether A and B define Moebius transformations: {True,True}
+Circles A.c[a] and B.c[b] and whether they are great: {1, Cos[a] , Sin[a] , 0       ,0} True ,
+                                                      {5, 5Cos[b], 4Sin[b], 3 Sin[b],0} True
+Surface X is parametrized by hp[A.c[a],B.c[b]] =
+                                    {5,5 ca cb-4 sa sb,5 cb sa+4 ca sb,3 ca sb,3 sa sb}
+Degree and equation of a stereographic projection of X: {3,
+                                    -6y0y1y2+8y0y2^2+3y0^2y3-3y1^2y3-3y2^2y3+8y0y3^2-3y3^3}
+Surface X is a Darboux cyclide: True
+Quadratic equations for X:
+                {-3 x2 x3+4 x3^2+3 x1 x4+4 x4^2,
+                 x0^2-x1^2-x2^2-x3^2-x4^2}
+Check equations by substituting parametrizations: {True,True}
+Solve::svars: Equations may not give solutions for all "solve" variables.
+Isolated singularities of X: {{x0->0, x1->-3 x4, x2->-3 I x4    , x3->-I x4},
+                              {x0->0, x1->x4/3 , x2->(I x4)/3   , x3->-I x4},
+                              {x0->0, x1->-3 x4, x2->3 I x4     , x3-> I x4},
+                              {x0->0, x1->x4/3 , x2->-((I x4)/3), x3-> I x4}}
+Surface X must be a ring cyclide.
+----------
+```
+
+```Mathematica
+analyzeSurface[M2, M3]
+```
+
+Output:
+
+```
+A ={{3,0,0,-2,-2},{0,1,0,0,0},{0,0,1,0,0},{-2,0,0,1,2},{2,0,0,-2,-1}}
+B ={{3,0,0,2,-1},{0,2,0,0,0},{0,0,2,0,0},{2,0,0,2,-2},{1,0,0,2,1}}
+Check whether A and B define Moebius transformations: {True,True}
+Circles A.c[a] and B.c[b] and whether they are great: {3, Cos[a],  Sin[a], -2, 2} False ,
+                                                      {3, 2Cos[b], 2Sin[b], 2, 1} False
+Surface X is parametrized by hp[A.c[a],B.c[b]]=
+                        {9,2+2 ca cb-2 sa sb,2 (-3+cb sa+ca sb),2 ca-4 cb-sa+4 sb,ca+4 cb+2 sa+4 sb}
+Degree and equation of a stereographic projection of X: {4,
+                         9y0^4+24y0^3y1+26y0^2y1^2+24y0y1^3+17y1^4-10y0^2y2^2+24y0y1y2^2+34y1^2y2^2+17y2^4-10y0^2y3^2+24y0y1y3^2+34y1^2y3^2+34y2^2y3^2+17y3^4}
+Surface X is a Darboux cyclide: True
+Quadratic equations for X:
+            {4 x0 x1-13 x1^2-12 x0 x2-13 x2^2-4 x3^2-4 x4^2,
+             x0^2-x1^2-x2^2-x3^2-x4^2}
+Check equations by substituting parametrizations: {True,True}
+Solve::svars: Equations may not give solutions for all "solve" variables.
+Isolated singularities of X: {{x0->0, x1->0, x2->0, x4->-I x3},
+                              {x0->0, x1->0, x2->0, x4-> I x3}}
+Surface X must be a Perseus cyclide.
+----------
+```
+
+```Mathematica
+analyzeSurface[M4, M5]
+```
+
+Output:
+
+```
+A ={{3,-2,0,0,-1},{-2,2,0,0,2},{0,0,2,0,0},{0,0,0,2,0},{1,-2,0,0,1}}
+B ={{3,2,0,0,-1},{2,2,0,0,-2},{0,0,2,0,0},{0,0,0,2,0},{1,2,0,0,1}}
+Check whether A and B define Moebius transformations: {True,True}
+Circles A.c[a] and B.c[b] and whether they are great: {3-2 Cos[a],-2+2 Cos[a],2 Sin[a],0,1-2 Cos[a]} False,
+                                                      {3+2 Cos[b], 2+2 Cos[b],2 Sin[b],0,1+2 Cos[b]} False
+Surface X is parametrized by hp[A.c[a],B.c[b]]=
+            {(3-2 ca) (3+2 cb),-5-6 cb+ca (6+8 cb)-4 sa sb,4 ((1+cb) sa+(-1+ca) sb),-2 (sa+2 cb sa+(-1+2 ca) sb),-2 (ca+cb)}
+Degree and equation of a stereographic projection of X: {2, y0^2-3 y1^2-4 y1 y2-4 y3^2}
+Surface X is a Darboux cyclide: True
+Quadratic equations for X: {2 x0 x1+2 x1^2-2 x2^2-4 x2 x3+x3^2-3 x4^2,
+                            x0^2-x1^2-x2^2-x3^2-x4^2}
+Check equations by substituting parametrizations: {True,True}
+Solve::svars: Equations may not give solutions for all "solve" variables.
+Isolated singularities of X: {{x0->0  , x1->0, x3->x2/2, x4->-(1/2) I Sqrt[5] x2},
+                              {x0->0  , x1->0, x3->x2/2, x4->  1/2  I Sqrt[5] x2},
+                              {x0->-x1, x2->0, x3->0, x4->0}}
+Surface X must be a CH1 cyclide.
+----------
+```
+
+```Mathematica
+analyzeSurface[M0, M6]
+```
+
+Output:
+
+```
+A ={{1,0,0,0,0},{0,1,0,0,0},{0,0,1,0,0},{0,0,0,1,0},{0,0,0,0,1}}
+B ={{17,12,0,0,-9},{12,8,0,0,-12},{0,0,8,0,0},{0,0,0,8,0},{9,12,0,0,-1}}
+Check whether A and B define Moebius transformations: {True,True}
+Circles A.c[a] and B.c[b] and whether they are great: {1,Cos[a],Sin[a],0,0} True ,
+                                                      {17+12 Cos[b],12+8 Cos[b],8 Sin[b],0,9+12 Cos[b]} False
+Surface X is parametrized by hp[A.c[a],B.c[b]]={17+12 cb,4 ca (3+2 cb)-8 sa sb,4 (3+2 cb) sa+8 ca sb,-3 (3+4 cb) sa,3 ca (3+4 cb)}
+Degree and equation of a stereographic projection of X: {6,
+                        81y0^4y2^2-414y0^2y1^2y2^2+81y1^4y2^2+96y0^2y1y2^3+158y0^2y2^4+162y1^2y2^4+81y2^6+576y0^3y1y2y3-576y0y1^3y2y3-48y0^3y2^2y3+48y0y1^2y2^2y3-576y0y1y2^3y3+48y0y2^4y3-63y0^4y3^2+450y0^2y1^2y3^2-63y1^4y3^2+96y0^2y1y2y3^2+604y0^2y2^2y3^2+36y1^2y2^2y3^2+99y2^4y3^2-48y0^3y3^3+48y0y1^2y3^3-576y0y1y2y3^3+96y0y2^2y3^3+446y0^2y3^4-126y1^2y3^4-45y2^2y3^4+48y0y3^5-63y3^6}
+Surface X is a Darboux cyclide: False
+----------
+```
+
+```Mathematica
+analyzeSurface[M7, M8]
+```
+
+Output:
+
+```
+A ={{3,-2,0,0,-1},{2,-2,0,0,-2},{0,0,-2,0,0},{0,0,0,2,0},{1,-2,0,0,1}}
+B ={{3,2,0,0,-1},{2,2,0,0,-2},{0,0,2,0,0},{0,0,0,2,0},{1,2,0,0,1}}
+Check whether A and B define Moebius transformations: {True,True}
+Circles A.c[a] and B.c[b] and whether they are great: {3-2 Cos[a],2-2 Cos[a],-2 Sin[a],0,1-2 Cos[a]} False , {3+2 Cos[b],2+2 Cos[b],2 Sin[b],0,1+2 Cos[b]} False
+Surface X is parametrized by hp[A.c[a],B.c[b]]={(3-2 ca) (3+2 cb),3-2 ca+2 cb+4 sa sb,-4 ((1+cb) sa+(-1+ca) sb),2 (sa+2 cb sa+sb-2 ca sb),4+6 cb-2 ca (3+4 cb)}
+Degree and equation of a stereographic projection of X: {6,
+                        -12y0^2y1^4+4y1^6+y0^4y2^2+13y0^2y1^2y2^2+8y1^4y2^2+4y1^2y2^4-12y0^3y1^2y3+20y0y1^4y3+8y0^3y2^2y3+20y0y1^2y2^2y3-3y0^4y3^2-7y0^2y1^2y3^2+8y1^4y3^2+20y0^2y2^2y3^2+8y1^2y2^2y3^2-8y0^3y3^3+36y0y1^2y3^3+16y0y2^2y3^3+4y0^2y3^4+4y1^2y3^4+16y0y3^5}
+Surface X is a Darboux cyclide: False
+----------
+```
 
