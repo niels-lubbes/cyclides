@@ -679,9 +679,10 @@ M7 = {{3, -2, 0, 0, -1}, {2, -2, 0, 0, -2}, {0, 0, -2, 0, 0}, {0, 0, 0, 2, 0}, {
 M8 = {{3, 2, 0, 0, -1}, {2, 2, 0, 0, -2}, {0, 0, 2, 0, 0}, {0, 0, 0, 2, 0}, {1, 2, 0, 0, 1}};
 ```
 
-We plot examples of Cliffordian surfaces that are stereographic projections of surfaces
-parametrized by `hp[A.c[a],B.c[b]`, where `hp[x_,y_]` is the Hamiltonian product,
-`c[t_]` is some fixed great circle, and `A` and `B` are matrices corresponding to Moebius transformations.
+We will construct Cliffordian celestial surfaces in the projective 3-sphere as `hp[A.c[a],B.c[b]`,
+where the Hamiltonian product `hp[x_,y_]` and the great circle `c[t_]`
+are defined below. The 5x5 matrices `A` and `B` should correspond to Moebius transformations
+(this will be checked using the function `analyzeSurface` below).
 
 ```Mathematica
 (* Hamiltonian product *)
@@ -693,14 +694,19 @@ hp[x_, y_] := {
     x[[2]]*y[[5]] + x[[5]]*y[[2]] + x[[3]]*y[[4]] - x[[4]]*y[[3]]
     };
 
-(* Stereographic projections from the *)
+(* Parametrization of a great circle in the projective 3-sphere. *)
+c[t_] := {1, Cos[t], Sin[t], 0, 0};
+```
+
+We plot some examples of stereographic projections of Cliffordian celestial surfaces.
+
+```Mathematica
+
+(* Stereographic projections *)
 sp1[q_] := {q[[2]], q[[3]], q[[4]]}/(q[[1]] - q[[5]]);
 sp2[q_] := {q[[5]], q[[3]], q[[4]]}/(q[[1]] - q[[2]]);
 
-(* Parametrization of a great circle in the projective 3-sphere. *)
-c[t_] := {1, Cos[t], Sin[t], 0, 0};
 
-(* Plot examples. *)
 M01 = ParametricPlot3D[
         sp1@hp[ M0.c[a], M1.c[b] ], {a, 0, 2*Pi}, {b, 0, 2*Pi},
         Boxed -> False, Axes -> False,
@@ -729,7 +735,7 @@ Output:
 
 ![output image](https://raw.githubusercontent.com/niels-lubbes/cyclides/master/translational-celestial-surfaces.png "Translational celestial surfaces")
 
-The following function is used to analyze the degree and singular locus of surfaces
+The following function is used to analyze the degree and singular locus of Cliffordian celestial surfaces
 that are contructed as  `hp[A.c[a],B.c[b]`, where `A` and `B` are 5x5 matrices.
 We verify that `A` and `B` define Moebius tranformations and determine
 whether the circles `A.c[t]` and `B.c[t]` are great.
