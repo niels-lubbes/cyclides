@@ -374,6 +374,7 @@ Output:
 
 ![output image](https://raw.githubusercontent.com/niels-lubbes/cyclides/master/adjacency-graphs-cyclides.png "Adjacency graphs for Darboux cyclides")
 
+
 ## Example 10
 
 Recall that `Ring` is initialized as the set B(X) for the ring cyclide.
@@ -664,10 +665,9 @@ Output:
 
 ## Example 20
 
-We clear all variables and initialize matrices corresponding to Moebius transformations of the projective 3-sphere.
+We initialize matrices corresponding to Moebius transformations of the projective 3-sphere.
 
 ```Mathematica
-Remove["Global`*"]
 M0 = {{1, 0, 0, 0, 0}, {0, 1, 0, 0, 0}, {0, 0, 1, 0, 0}, {0, 0, 0, 1, 0}, {0, 0, 0, 0, 1}};
 M1 = {{5, 0, 0, 0, 0}, {0, 5, 0, 0, 0}, {0, 0, 4, -3, 0}, {0, 0, 3, 4, 0}, {0, 0, 0, 0, 5}};
 M2 = {{3, 0, 0, -2, -2}, {0, 1, 0, 0, 0}, {0, 0, 1, 0, 0}, {-2, 0, 0, 1, 2}, {2, 0, 0, -2, -1}};
@@ -959,4 +959,55 @@ Degree and equation of a stereographic projection of X:
 Surface X is a Darboux cyclide: False
 ----------
 ```
+
+
+## Lemma 21
+
+We check each entry of the classification table that if there exists a pair of classes in G(X)
+with intersection product two, then conjugate classes in E(X) have intersection product zero.
+
+```Mathematica
+For[i = 1, i <= Length[classBX], i++,
+
+    (* Initialize name,
+    B(X) and real structure. *)
+    {name, BX, rs} = classBX[[i]];
+
+    (* Initialize the subset of real classes in G(X) and E(X). *)
+    RGX = getReal[getGX[BX], rs];
+    EX = getEX[BX];
+
+    (* Select pairs of classes in RGX that do not intersect in one point. *)
+    pairsRGX = DeleteDuplicatesBy[Sort]@
+        Select[Permutations[RGX, {2}], #[[1]].M.#[[2]] != 2 &];
+
+    (* Select pairs of conjugate classes in EX that intersect. *)
+    pairsEX = DeleteDuplicatesBy[Sort]@
+        Select[Permutations[EX, {2}], #[[1]].M.#[[2]] != 0 && rs.#[[1]] == #[[2]] &];
+
+    (* Do the verification. *)
+    If [pairsRGX != {} && pairsEX != {},
+        Print[name," cyclide is a counter example to the proof of Lemma 21: ", str@pairsRGX, str@pairsEX];
+    ,(* else *)
+        Print[name, " cyclide case is verified. BX=", str@BX, ", RGX=", str@RGX, ", EX=", str@EX];
+    ]; (* endif *)
+];
+```
+
+Output:
+
+    Blum cyclide case is verified. BX={}, RGX={g0, g1, g2, g3, g12, g34}, EX={e1, e2, e3, e4, e01, e02, e03, e04, e11, e12, e13, e14, ep1, ep2, ep3, ep4}
+    Perseus cyclide case is verified. BX={b1, b2}, RGX={g0, g1, g2, g3, g12}, EX={e3, e4, e01, e02, e11, e12, ep3, ep4}
+    Ring cyclide case is verified. BX={b13, b24, bp14, bp23}, RGX={g0, g1, g12, g34}, EX={e1, e2, e3, e4}
+    EH1 cyclide case is verified. BX={b12}, RGX={g0, g1, g3, g34}, EX={e1, e2, e3, e4, e03, e04, e11, e12, e13, e14, ep1, ep2}
+    CH1 cyclide case is verified. BX={b13, b24, bp12}, RGX={g0, g1, g34}, EX={e1, e2, e3, e4, e13, e14}
+    HP cyclide case is verified. BX={b12, bp34}, RGX={g0, g1}, EX={e1, e2, e3, e4, e03, e04, e11, e12}
+    EY cyclide case is verified. BX={b12, b1, b2}, RGX={g0, g1, g3}, EX={e3, e4, e11, e12}
+    CY cyclide case is verified. BX={b12, b1, b2, bp13, bp24}, RGX={g0, g1}, EX={e3, e4}
+    EO cyclide case is verified. BX={b12, b34}, RGX={g0, g1, g3}, EX={e1, e2, e3, e4, e11, e12, e13, e14}
+    CO cyclide case is verified. BX={b12, b34, bp13, bp24}, RGX={g0, g1}, EX={e1, e2, e3, e4}
+    EE/EH2 cyclide case is verified. BX={b0}, RGX={g12, g34}, EX={e1, e2, e3, e4, e01, e02, e03, e04, e11, e12, e13, e14}
+    EP cyclide case is verified. BX={b13, bp24}, RGX={g12, g34}, EX={e1, e2, e3, e4, e02, e04, e11, e13}
+    S1 cyclide case is verified. BX={}, RGX={g12, g34}, EX={e1, e2, e3, e4, e01, e02, e03, e04, e11, e12, e13, e14, ep1, ep2, ep3, ep4}
+    S2 cyclide case is verified. BX={}, RGX={g1, g2}, EX={e1, e2, e3, e4, e01, e02, e03, e04, e11, e12, e13, e14, ep1, ep2, ep3, ep4}
 
