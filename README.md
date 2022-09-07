@@ -9,7 +9,11 @@ of some of the proofs in the article [Translational and great Darboux cyclides](
 For running the code copy paste the code presented below in [Mathematica](https://www.wolfram.com/mathematica/trial/).
 The same code can be found in the Mathematica file [cyclides.nb](https://raw.githubusercontent.com/niels-lubbes/cyclides/master/cyclides.nb?token=AF74RI5WHEIOYDZWOJAIARTBUUO6G).
 
-## Euclidean translations
+## Euclidean translations for S3
+
+We verify that Euclidean translations of the projective 3-sphere
+are indeed Moebius transformations and correspond via the stereographic projection to translations of Euclidean 3-space.
+See Section 2 of the article.
 
 ```
 Remove["Global`*"]
