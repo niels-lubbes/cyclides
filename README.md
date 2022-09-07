@@ -492,7 +492,7 @@ Output:
     True
 
 
-## Proposition 19
+## Example 16 and Proposition 19
 
 For the following function, the inputs `u` and `v` are classes and `BX` corresponds to the set B(X).
 We assume that `mult[W,u]>=0` and `mult[W,v]>=0` for all components W of B(X).
