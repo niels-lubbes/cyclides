@@ -9,6 +9,33 @@ of some of the proofs in the article [Translational and great Darboux cyclides](
 For running the code copy paste the code presented below in [Mathematica](https://www.wolfram.com/mathematica/trial/).
 The same code can be found in the Mathematica file [cyclides.nb](https://raw.githubusercontent.com/niels-lubbes/cyclides/master/cyclides.nb?token=AF74RI5WHEIOYDZWOJAIARTBUUO6G).
 
+## Euclidean translations
+
+```
+Remove["Global`*"]
+mat = {
+    {2+y1^2+y2^2+y3^2,2*y1,2*y2,2*y3,-y1^2-y2^2-y3^2},
+    {2*y1,2,0,0,-2*y1},
+    {2*y2,0,2,0,-2*y2},
+    {2*y3,0,0,2,-2*y3},
+    {y1^2+y2^2+y3^2,2*y1,2*y2,2*y3,2-y1^2-y2^2-y3^2}
+};
+
+(* check that mat defines a Moebius transformation *)
+J = DiagonalMatrix[{-1, 1, 1, 1, 1}];
+Expand[Transpose[mat] . J . mat] == 4*J
+
+(* Check that mat corresponds to an Euclidean translation. *)
+sp[x_] := {x[[1]]-x[[5]], x[[2]], x[[3]], x[[4]]}; (* stereographic projection *)
+Expand[sp[mat . {x0, x1, x2, x3, 0}]/2]
+```
+
+Output:
+
+    True
+    {x0, x1 + x0 y1, x2 + x0 y2, x3 + x0 y3}
+
+
 ## Initialization of classes and real involutions
 
 We intialize the classes, the intersection matrix, the matrices corresponding to the involutions 2A1, 3A1 and D4 that are induced by the real structure. We also initialize a list with all possible B(X) together with the corresponding name and involutions.
@@ -16,7 +43,6 @@ We use the notation and definitions from the article.
 
 ```Mathematica
 (* Define notation for the classes in the sets B(X), E(X) and G(X). *)
-Remove["Global`*"]
 (*declare classes in E(X)*)
 e1 = {0, 0, 1, 0, 0, 0};e2 = {0, 0, 0, 1, 0, 0};e3 = {0, 0, 0, 0, 1, 0};e4 = {0, 0, 0, 0, 0, 1};e01 = {1, 0, -1, 0, 0, 0};e02 = {1, 0, 0, -1, 0, 0};e03 = {1, 0, 0, 0, -1, 0};e04 = {1, 0, 0, 0, 0, -1};e11 = {0, 1, -1, 0, 0, 0};e12 = {0, 1, 0, -1, 0, 0};e13 = {0, 1, 0, 0, -1, 0};e14 = {0, 1, 0, 0, 0, -1};ep1 = {1, 1, 0, -1, -1, -1};ep2 = {1, 1, -1, 0, -1, -1};ep3 = {1, 1, -1, -1, 0, -1};ep4 = {1, 1, -1, -1, -1, 0};
 (*declare classes in G(X)*)
