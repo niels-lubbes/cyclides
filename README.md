@@ -5,6 +5,7 @@
 
 We present Mathematica code for the automatic verification
 of some of the proofs in the article [Translational and great Darboux cyclides](https://arxiv.org/abs/1306.1917).
+The section titles below refer the environments in this article.
 
 For running the code copy paste the code presented below in [Mathematica](https://www.wolfram.com/mathematica/trial/).
 The same code can be found in the Mathematica file [cyclides.nb](https://raw.githubusercontent.com/niels-lubbes/cyclides/master/cyclides.nb?token=AF74RI5WHEIOYDZWOJAIARTBUUO6G).
@@ -40,7 +41,7 @@ Output:
     {x0, x1 + x0 y1, x2 + x0 y2, x3 + x0 y3}
 
 
-## Initialization of classes and real involutions
+## Initialization of classes and real involutions following Section 4
 
 We intialize the classes, the intersection matrix, the matrices corresponding to the involutions 2A1, 3A1 and D4 that are induced by the real structure. We also initialize a list with all possible B(X) together with the corresponding name and involutions.
 We use the notation and definitions from the article.
@@ -92,7 +93,7 @@ allEX = {e1, e2, e3, e4, e01, e02, e03, e04, e11, e12, e13, e14, ep1, ep2, ep3, 
 allGX = {g0, g1, g12, g34, g2, g3, g13, g24, g14, g23};
 ```
 
-The set B(X) for each row of Table 4 in Section 4.
+The set B(X) for each row of Table 6 in Section 4.
 
 ```Mathematica
 (* rs2A1 *)
@@ -198,7 +199,7 @@ Output:
     b2    0   0   0   0   1   0  -1   1   0  -1   0  -1   0   1   0   1   0  -1   0   1   0  -1   0  -1   0   1
 
 
-## Tables 3 and 4
+## Tables 5 and 6 in Section 4
 
 The input `BX` represents the list B(X). The output is the list E(X)
 and corresponds to the elements in `allEX` that are non-negative with
@@ -325,7 +326,7 @@ Output:
     S2
 
 
-## Example 9
+## Example 14 in Section 4
 
 The inputs `u` of the function `mult` below is either a class or a component of B(X).
 If `u` is a class, then we replace it with a list `{u}`.Similarly, for the
@@ -405,7 +406,7 @@ Output:
 ![output image](https://raw.githubusercontent.com/niels-lubbes/cyclides/master/adjacency-graphs-cyclides.png "Adjacency graphs for Darboux cyclides")
 
 
-## Example 10
+## Example 15 in Section 4
 
 Recall that `Ring` is initialized as the set B(X) for the ring cyclide.
 
@@ -424,7 +425,7 @@ Output:
     True
     True
 
-## Lemma 11
+## Lemma 16 in Section 4
 
 The inputs `W` and `rs` of the following function represent a component of B(X) and the real
 structure, respectively.
@@ -434,7 +435,7 @@ The output is True if the component is send to itself by the real structure.
 isRealComp[W_, rs_] := Return[Sort@Map[rs . # &, W] == Sort@W]
 ```
 
-For Lemma 3a and Lemma3b we go through all possible B(X) and find real classes g in G(X)
+For Lemma 16a and Lemma 16b we go through all possible B(X) and find real classes g in G(X)
 and complex components W in B(X) such that mult[g,W]>0
 
 ```Mathematica
@@ -463,7 +464,7 @@ Output:
     CY:      { {1,g0 ,{bp13}}, {1,g0 ,{bp24}} }
     CO:      { {1,g0 ,{bp13}}, {1,g0 ,{bp24}} }
 
-The CY cyclide case in Lemma 11c:
+The CY cyclide case in Lemma 16c:
 
 ```Mathematica
 {W} = Select[getComponents[CY], isRealComp[#, rs2A1] &];
@@ -477,7 +478,7 @@ Output:
     {"{b12, b1, b2}", "{e3, e4}"}
     True
 
-The CO cyclide case in Lemma 11c:
+The CO cyclide case in Lemma 16c:
 
 ```Mathematica
 {W1, W2} = Select[getComponents[CO], isRealComp[#, rs2A1] &];
@@ -492,7 +493,7 @@ Output:
     True
 
 
-## Example 16 and Proposition 19
+## Example 21 and Proposition 24 in Section 5
 
 For the following function, the inputs `u` and `v` are classes and `BX` corresponds to the set B(X).
 We assume that `mult[W,u]>=0` and `mult[W,v]>=0` for all components W of B(X).
@@ -527,7 +528,7 @@ isQuartet[a_, b_, c_, d_, BX_, rs_] :=
 
 For the following function, the inputs `e` and `a` are classes, `A` is a list of four classes {a,b,c,d}
 containing `a`, and `BX` represents B(X).
-Returns `True` if the class e belongs to U as defined at Definition 15.
+Returns `True` if the class e belongs to U as defined at Definition 20.
 
 ```Mathematica
 inU[e_, A_, a_, BX_] := Module[{b, c, d},
@@ -693,7 +694,7 @@ Output:
     There exist no Clifford quartets.
 
 
-## Example 20
+## Example 25 in Section 5
 
 We initialize matrices corresponding to Moebius transformations of the projective 3-sphere.
 
@@ -991,7 +992,7 @@ Surface X is a Darboux cyclide: False
 ```
 
 
-## Lemma 21
+## Lemma 26 in Section 6
 
 We check each entry of the classification table that if there exists a pair of classes in G(X)
 with intersection product two, then conjugate classes in E(X) have intersection product zero.
