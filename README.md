@@ -10,7 +10,7 @@ The section titles below refer the environments in this article.
 For running the code copy paste the code presented below in [Mathematica](https://www.wolfram.com/mathematica/trial/).
 The same code can be found in the Mathematica file [cyclides.nb](https://raw.githubusercontent.com/niels-lubbes/cyclides/master/cyclides.nb?token=AF74RI5WHEIOYDZWOJAIARTBUUO6G).
 
-## Euclidean translations for S3
+## Euclidean translations for S3 in Section 2
 
 We verify that Euclidean translations of the projective 3-sphere
 are indeed Moebius transformations and correspond via the stereographic projection to translations of Euclidean 3-space.
