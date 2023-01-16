@@ -995,7 +995,7 @@ Surface X is a Darboux cyclide: False
 ## Lemma 26 in Section 6
 
 We check each entry of the classification table that if there exists a pair of classes in G(X)
-with intersection product two, then conjugate classes in E(X) have intersection product zero.
+with intersection product not equal two, then all pairs of conjugate classes in E(X) have intersection product zero.
 
 ```Mathematica
 For[i = 1, i <= Length[classBX], i++,
