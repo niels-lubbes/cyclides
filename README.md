@@ -54,6 +54,21 @@ e1 = {0, 0, 1, 0, 0, 0};e2 = {0, 0, 0, 1, 0, 0};e3 = {0, 0, 0, 0, 1, 0};e4 = {0,
 g0 = {1, 0, 0, 0, 0, 0};g1 = {0, 1, 0, 0, 0, 0};g2 = {2, 1, -1, -1, -1, -1};g3 = {1, 2, -1, -1, -1, -1};g12 = {1, 1, -1, -1, 0, 0};g34 = {1, 1, 0, 0, -1, -1};g13 = {1, 1, -1, 0, -1, 0};g24 = {1, 1, 0, -1, 0, -1};g14 = {1, 1, -1, 0, 0, -1};g23 = {1, 1, 0, -1, -1, 0};
 (*declare classes in B(X)*)
 b12 = {1, 0, -1, -1, 0, 0};b13 = {1, 0, -1, 0, -1, 0};b24 = {1, 0, 0, -1, 0, -1};b34 = {1, 0, 0, 0, -1, -1};bp12 = {0, 1, -1, -1, 0, 0};bp13 = {0, 1, -1, 0, -1, 0};bp14 = {0, 1, -1, 0, 0, -1};bp23 = {0, 1, 0, -1, -1, 0};bp24 = {0, 1, 0, -1, 0, -1};bp34 = {0, 1, 0, 0, -1, -1};b0 = {1, 1, -1, -1, -1, -1};b1 = {0, 0, 1, 0, -1, 0};b2 = {0, 0, 0, 1, 0, -1};
+
+(* Converts class or real structure to string. *)
+str[q_] := Module[{},
+    (* E(X) *)
+    If[q == e1, Return["e1"]]; If[q == e2, Return["e2"]]; If[q == e3, Return["e3"]]; If[q == e4, Return["e4"]]; If[q == e01, Return["e01"]]; If[q == e02, Return["e02"]]; If[q == e03, Return["e03"]]; If[q == e04, Return["e04"]]; If[q == e11, Return["e11"]]; If[q == e12, Return["e12"]]; If[q == e13, Return["e13"]]; If[q == e14, Return["e14"]]; If[q == ep1, Return["ep1"]]; If[q == ep2, Return["ep2"]]; If[q == ep3, Return["ep3"]]; If[q == ep4, Return["ep4"]];
+    (* G(X) *)
+    If[q == g0, Return["g0"]]; If[q == g1, Return["g1"]]; If[q == g12, Return["g12"]]; If[q == g34, Return["g34"]]; If[q == g2, Return["g2"]]; If[q == g3, Return["g3"]]; If[q == g13, Return["g13"]]; If[q == g24, Return["g24"]]; If[q == g14, Return["g14"]]; If[q == g23, Return["g23"]];
+    (* B(X) *)
+    If[q == b12, Return["b12"]]; If[q == b13, Return["b13"]]; If[q == b24, Return["b24"]]; If[q == b34, Return["b34"]]; If[q == bp12, Return["bp12"]]; If[q == bp13, Return["bp13"]]; If[q == bp14, Return["bp14"]]; If[q == bp23, Return["bp23"]]; If[q == bp24, Return["bp24"]]; If[q == bp34, Return["bp34"]]; If[q == b0, Return["b0"]]; If[q == b1, Return["b1"]]; If[q == b2, Return["b2"]];
+    (* real structures *)
+    If[q == rs2A1, Return["rs2A1"]]; If[q == rs3A1, Return["rs3A1"]]; If[q == rsD4, Return["rsD4"]];
+    (* apply recursively str to each element in the list q *)
+    If[q != Flatten[q], Return@ToString[str /@ q]];
+    Return[ToString[q]]
+];
 ```
 
 The following symmetric matrix defines the quadratic form for the intersection product between classes.
