@@ -1018,7 +1018,7 @@ For[i = 1, i <= Length[classBX], i++,
     RGX = getReal[getGX[BX], rs];
     EX = getEX[BX];
 
-    (* Select pairs of classes in RGX that do not intersect in one point. *)
+    (* Select pairs of classes in RGX that do not intersect in two points. *)
     pairsRGX = DeleteDuplicatesBy[Sort]@
         Select[Permutations[RGX, {2}], #[[1]].M.#[[2]] != 2 &];
 
