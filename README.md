@@ -32,12 +32,14 @@ Expand[Transpose[mat] . J . mat] == 4*J
 
 (* Check that mat corresponds to an Euclidean translation. *)
 sp[x_] := {x[[1]]-x[[5]], x[[2]], x[[3]], x[[4]]}; (* stereographic projection *)
-Expand[sp[mat . {x0, x1, x2, x3, 0}]/2]
+Expand[sp[mat . {x0, x1, x2, x3, x4}]/2]
+Expand[sp[mat . {x0, x1, x2, x3, 0 }]/2]
 ```
 
 Output:
 
     True
+    {x0 - x4, x1 + x0 y1 - x4 y1, x2 + x0 y2 - x4 y2, x3 + x0 y3 - x4 y3}
     {x0, x1 + x0 y1, x2 + x0 y2, x3 + x0 y3}
 
 
@@ -335,7 +337,7 @@ Output:
     S2
 
 
-## Example 14 in Section 4
+## Example 15 in Section 4
 
 The inputs `u` of the function `mult` below is either a class or a component of B(X).
 If `u` is a class, then we replace it with a list `{u}`.Similarly, for the
@@ -372,7 +374,7 @@ Below we construct for each entry of the classification table `classBX`
 a graph whose vertices correspond to classes in E(X) and components of B(X).
 There is an edge between vertices u and v if and only if `mult[u, v] == 1`.
 
-From this graph we can recover the diagram in Example 9 as follows.
+From this graph we can recover the diagram in Example 15 as follows.
 We replace each vertex in E(X) with a line segment.
 Two line segments are either disjoint or meet at no more than one disc.
 The line segments corresponding to vertices u and v in E(X) meet at a disc iff one of the following two cases holds:
@@ -415,7 +417,7 @@ Output:
 ![output image](https://raw.githubusercontent.com/niels-lubbes/cyclides/master/adjacency-graphs-cyclides.png "Adjacency graphs for Darboux cyclides")
 
 
-## Example 15 in Section 4
+## Example 16 in Section 4
 
 Recall that `Ring` is initialized as the set B(X) for the ring cyclide.
 
@@ -434,7 +436,7 @@ Output:
     True
     True
 
-## Lemma 16 in Section 4
+## Lemma 17 in Section 4
 
 The inputs `W` and `rs` of the following function represent a component of B(X) and the real
 structure, respectively.
@@ -444,7 +446,7 @@ The output is True if the component is send to itself by the real structure.
 isRealComp[W_, rs_] := Return[Sort@Map[rs . # &, W] == Sort@W]
 ```
 
-For Lemma 16a and Lemma 16b we go through all possible B(X) and find real classes g in G(X)
+For Lemma 17a and Lemma 17b we go through all possible B(X) and find real classes g in G(X)
 and complex components W in B(X) such that mult[g,W]>0
 
 ```Mathematica
@@ -473,7 +475,7 @@ Output:
     CY:      { {1,g0 ,{bp13}}, {1,g0 ,{bp24}} }
     CO:      { {1,g0 ,{bp13}}, {1,g0 ,{bp24}} }
 
-The CY cyclide case in Lemma 16c:
+The CY cyclide case in Lemma 17c:
 
 ```Mathematica
 {W} = Select[getComponents[CY], isRealComp[#, rs2A1] &];
@@ -502,7 +504,7 @@ Output:
     True
 
 
-## Example 21 and Proposition 24 in Section 5
+## Example 22 and Proposition 25 in Section 5
 
 For the following function, the inputs `u` and `v` are classes and `BX` corresponds to the set B(X).
 We assume that `mult[W,u]>=0` and `mult[W,v]>=0` for all components W of B(X).
@@ -537,7 +539,7 @@ isQuartet[a_, b_, c_, d_, BX_, rs_] :=
 
 For the following function, the inputs `e` and `a` are classes, `A` is a list of four classes {a,b,c,d}
 containing `a`, and `BX` represents B(X).
-Returns `True` if the class e belongs to U as defined at Definition 20.
+Returns `True` if the class e belongs to U as defined at Definition 21.
 
 ```Mathematica
 inU[e_, A_, a_, BX_] := Module[{b, c, d},
@@ -703,7 +705,7 @@ Output:
     There exist no Clifford quartets.
 
 
-## Example 25 in Section 5
+## Example 26 in Section 5
 
 We initialize matrices corresponding to Moebius transformations of the projective 3-sphere.
 
@@ -1001,7 +1003,7 @@ Surface X is a Darboux cyclide: False
 ```
 
 
-## Lemma 26 in Section 6
+## Lemma 28 in Section 6
 
 We check for each of the 14 entries of the classification table that if there exists a pair of classes in G(X)
 whose intersection product is not equal 2,
@@ -1051,4 +1053,162 @@ Output:
     EP cyclide case is verified. BX={b13, bp24}, RGX={g12, g34}, EX={e1, e2, e3, e4, e02, e04, e11, e13}
     S1 cyclide case is verified. BX={}, RGX={g12, g34}, EX={e1, e2, e3, e4, e01, e02, e03, e04, e11, e12, e13, e14, ep1, ep2, ep3, ep4}
     S2 cyclide case is verified. BX={}, RGX={g1, g2}, EX={e1, e2, e3, e4, e01, e02, e03, e04, e11, e12, e13, e14, ep1, ep2, ep3, ep4}
+
+
+## Proposition 33 and Lemma 34 in Section 7
+
+Below we initialize the five pairs of matrices in the proof of Proposition 33.
+
+```Mathematica
+Remove["Global`*"]
+K1 = {{-1, 0, 0, 0}, {0, 1 , 0, 0 }, {0, 0, 1 , 0  }, {0, 0, 0  , 1  }};
+N1 = {{a1, 0, 0, 0}, {0, a2, 0, 0 }, {0, 0, a3, 0  }, {0, 0, 0  , a4 }};
+K2 = {{1 , 0, 0, 0}, {0, 1 , 0, 0 }, {0, 0, 0 , 1  }, {0, 0, 1  , 0  }};
+N2 = {{a1, 0, 0, 0}, {0, a2, 0, 0 }, {0, 0, 0 , a3 }, {0, 0, a3 , 1  }};
+K3 = {{1 , 0, 0, 0}, {0, 1 , 0, 0 }, {0, 0, 0 , 1  }, {0, 0, 1  , 0  }};
+N3 = {{a1, 0, 0, 0}, {0, a2, 0, 0 }, {0, 0, b3, a3 }, {0, 0, a3 , -b3}};
+K4 = {{1 , 0, 0, 0}, {0, 1 , 0, 0 }, {0, 0, 0 , -1 }, {0, 0, -1 , 0  }};
+N4 = {{a1, 0, 0, 0}, {0, a2, 0, 0 }, {0, 0, 0 , -a3}, {0, 0, -a3, -1 }};
+K5 = {{1 , 0, 0, 0}, {0, 0 , 0, 1 }, {0, 0, 1 , 0  }, {0, 1, 0  , 0  }};
+N5 = {{a1, 0, 0, 0}, {0, 0 , 0, a2}, {0, 0, a2, 1  }, {0, a2, 1 , 0  }};
+```
+
+
+We recover from a matrix pair a quadratic form as asserted by Proposition 33.
+
+
+```Mathematica
+getQForm[K_, N_, sub_] := Module[{x, J, U, Q, qf},
+   x = {x0, x1, x2, x3};
+   J = {{-1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 1, 0}, {0, 0, 0, 1}};
+   U = Transpose@Orthogonalize@Eigenvectors[K];
+   Q = Simplify[Transpose[U] . N . U];
+   qf = Collect[x . Q . x, x] /. sub;
+   Print["K = ", InputForm@K];
+   Print["N = ", InputForm@N];
+   Print["U = ", InputForm@U];
+   Print["U^T.K.U == J: ", Transpose[U] . K . U == J];
+   Print["Q = U^T.N.U = ", InputForm@Q];
+   Print["x^T.Q.x/.sub = ", qf];
+   Print["---"];
+   Return[qf];
+];
+
+qf1 = getQForm[K1, N1, {a1 -> d, a2 -> c, a3 -> b, a4 -> a}];
+qf2 = getQForm[K2, N2, {a3 -> 1/2 - a, a2 -> b, a1 -> c}];
+qf3 = getQForm[K3, N3, {a3 -> -a, b3 -> -1/2, a2 -> b, a1 -> c}];
+qf4 = getQForm[K4, N4, {a3 -> -a - 1/2, a2 -> b, a1 -> c}];
+qf5 = getQForm[K5, N5, {a2 -> -a, a2 -> c, a1 -> d}];
+```
+
+Output:
+
+    K = {{-1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 1, 0}, {0, 0, 0, 1}}
+    N = {{a1, 0, 0, 0}, {0, a2, 0, 0}, {0, 0, a3, 0}, {0, 0, 0, a4}}
+    U = {{1, 0, 0, 0}, {0, 0, 0, 1}, {0, 0, 1, 0}, {0, 1, 0, 0}}
+    U^T.K.U == J: True
+    Q = U^T.N.U = {{a1, 0, 0, 0}, {0, a4, 0, 0}, {0, 0, a3, 0}, {0, 0, 0, a2}}
+    x^T.Q.x/.sub = d x0^2+a x1^2+b x2^2+c x3^2
+    ---
+    K = {{1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 0, 1}, {0, 0, 1, 0}}
+    N = {{a1, 0, 0, 0}, {0, a2, 0, 0}, {0, 0, 0, a3}, {0, 0, a3, 1}}
+    U = {{0, 0, 0, 1}, {0, 0, 1, 0}, {-(1/Sqrt[2]), 1/Sqrt[2], 0, 0}, {1/Sqrt[2], 1/Sqrt[2], 0, 0}}
+    U^T.K.U == J: True
+    Q = U^T.N.U = {{1/2 - a3, 1/2, 0, 0}, {1/2, 1/2 + a3, 0, 0}, {0, 0, a2, 0}, {0, 0, 0, a1}}
+    x^T.Q.x/.sub = a x0^2+x0 x1+(1-a) x1^2+b x2^2+c x3^2
+    ---
+    K = {{1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 0, 1}, {0, 0, 1, 0}}
+    N = {{a1, 0, 0, 0}, {0, a2, 0, 0}, {0, 0, b3, a3}, {0, 0, a3, -b3}}
+    U = {{0, 0, 0, 1}, {0, 0, 1, 0}, {-(1/Sqrt[2]), 1/Sqrt[2], 0, 0}, {1/Sqrt[2], 1/Sqrt[2], 0, 0}}
+    U^T.K.U == J: True
+    Q = U^T.N.U = {{-a3, -b3, 0, 0}, {-b3, a3, 0, 0}, {0, 0, a2, 0}, {0, 0, 0, a1}}
+    x^T.Q.x/.sub = a x0^2+x0 x1-a x1^2+b x2^2+c x3^2
+    ---
+    K = {{1, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 0, -1}, {0, 0, -1, 0}}
+    N = {{a1, 0, 0, 0}, {0, a2, 0, 0}, {0, 0, 0, -a3}, {0, 0, -a3, -1}}
+    U = {{0, 0, 0, 1}, {0, 0, 1, 0}, {1/Sqrt[2], -(1/Sqrt[2]), 0, 0}, {1/Sqrt[2], 1/Sqrt[2], 0, 0}}
+    U^T.K.U == J: True
+    Q = U^T.N.U = {{-1/2 - a3, -1/2, 0, 0}, {-1/2, -1/2 + a3, 0, 0}, {0, 0, a2, 0}, {0, 0, 0, a1}}
+    x^T.Q.x/.sub = a x0^2-x0 x1+(-1-a) x1^2+b x2^2+c x3^2
+    ---
+    K = {{1, 0, 0, 0}, {0, 0, 0, 1}, {0, 0, 1, 0}, {0, 1, 0, 0}}
+    N = {{a1, 0, 0, 0}, {0, 0, 0, a2}, {0, 0, a2, 1}, {0, a2, 1, 0}}
+    U = {{0, 0, 0, 1}, {-(1/Sqrt[2]), 1/Sqrt[2], 0, 0}, {0, 0, 1, 0}, {1/Sqrt[2], 1/Sqrt[2], 0, 0}}
+    U^T.K.U == J: True
+    Q = U^T.N.U = {{-a2, 0, 1/Sqrt[2], 0}, {0, a2, 1/Sqrt[2], 0}, {1/Sqrt[2], 1/Sqrt[2], a2, 0}, {0, 0, 0, a1}}
+    x^T.Q.x/.sub = a x0^2-a x1^2+Sqrt[2] x0 x2+Sqrt[2] x1 x2-a x2^2+d x3^2
+    ---
+
+Determine for each quadratic form whether the Darboux cyclide corresponding to quadratic form is singular.
+
+```Mathematica
+getSing[qfQ_] := Module[{x, J, qfJ, jac, lst, sol},
+    x = {x0, x1, x2, x3, x4};
+    J = {{-1, 0, 0, 0, 0}, {0, 1, 0, 0, 0}, {0, 0, 1, 0, 0}, {0, 0, 0, 1, 0}, {0, 0, 0, 0, 1}};
+    qfJ = x . J . x;
+    jac = {Grad[qfQ, x], Grad[qfJ, x]};
+    lst = Flatten@Minors[jac, 2];
+    lst = Table[lst[[i]] == 0, {i, 1, Length[lst]}];
+    sol = DeleteDuplicates@Solve[lst~Join~{qfQ == qfJ == 0, x0 == 1}, x];
+    Print["qfQ = ", InputForm@qfQ];
+    Print["Jacobian matrix: ", InputForm@Simplify@jac];
+    Print["Singularities: ", InputForm@sol];
+    Print["---"]
+];
+
+getSing[qf1]
+getSing[qf2]
+getSing[qf3]
+getSing[qf4]
+getSing[qf5]
+```
+
+Output:
+
+    qfQ = d*x0^2 + a*x1^2 + b*x2^2 + c*x3^2
+    Jacobian matrix: {{2*d*x0, 2*a*x1, 2*b*x2, 2*c*x3, 0}, {-2*x0, 2*x1, 2*x2, 2*x3, 2*x4}}
+    Singularities: {}
+    ---
+    qfQ = a*x0^2 + x0*x1 + (1 - a)*x1^2 + b*x2^2 + c*x3^2
+    Jacobian matrix: {{2*a*x0 + x1, x0 - 2*(-1 + a)*x1, 2*b*x2, 2*c*x3, 0}, {-2*x0, 2*x1, 2*x2, 2*x3, 2*x4}}
+    Singularities: {{x0 -> 1, x1 -> -1, x2 -> 0, x3 -> 0, x4 -> 0}}
+    ---
+    qfQ = a*x0^2 + x0*x1 - a*x1^2 + b*x2^2 + c*x3^2
+    Jacobian matrix: {{2*a*x0 + x1, x0 - 2*a*x1, 2*b*x2, 2*c*x3, 0}, {-2*x0, 2*x1, 2*x2, 2*x3, 2*x4}}
+    Singularities: {}
+    ---
+    qfQ = a*x0^2 - x0*x1 + (-1 - a)*x1^2 + b*x2^2 + c*x3^2
+    Jacobian matrix: {{2*a*x0 - x1, -x0 - 2*(1 + a)*x1, 2*b*x2, 2*c*x3, 0}, {-2*x0, 2*x1, 2*x2, 2*x3, 2*x4}}
+    Singularities: {{x0 -> 1, x1 -> -1, x2 -> 0, x3 -> 0, x4 -> 0}}
+    ---
+    qfQ = a*x0^2 - a*x1^2 + Sqrt[2]*x0*x2 + Sqrt[2]*x1*x2 - a*x2^2 + d*x3^2
+    Jacobian matrix: {{2*a*x0 + Sqrt[2]*x2, -2*a*x1 + Sqrt[2]*x2, Sqrt[2]*x0 + Sqrt[2]*x1 - 2*a*x2, 2*d*x3, 0}, {-2*x0, 2*x1, 2*x2, 2*x3, 2*x4}}
+    Singularities: {{x0 -> 1, x1 -> -1, x2 -> 0, x3 -> 0, x4 -> 0}}
+    ---
+
+The following computations are needed in the proof of Lemma 34.
+The eigenvalues can be used to compute the number of pencils of circles on the Darboux cyclide
+corresponding to quadratic form `qf3`.
+
+```Mathematica
+x = {x0, x1, x2, x3, x4};
+J = {{-1, 0, 0, 0, 0}, {0, 1, 0, 0, 0}, {0, 0, 1, 0, 0}, {0, 0, 0, 1,
+    0}, {0, 0, 0, 0, 1}};
+Q = {{a, 1/2, 0, 0, 0}, {1/2, -a, 0, 0, 0}, {0, 0, b, 0, 0}, {0, 0, 0,
+     c, 0}, {0, 0, 0, 0, 0}};
+Expand[x . Q . x]
+Solve[Det[Q - t*J] == 0, {t}]
+Eigenvalues[Q]
+Eigenvalues[Q - b*J]
+Eigenvalues[Q - c*J]
+```
+
+Output:
+
+    a x0^2 + x0 x1 - a x1^2 + b x2^2 + c x3^2
+    {{t -> 0}, {t -> 1/2 (-I - 2 a)}, {t -> 1/2 (I - 2 a)}, {t -> b}, {t -> c}}
+    {0, -(1/2) Sqrt[1 + 4 a^2], 1/2 Sqrt[1 + 4 a^2], b, c}
+    {0, -b, -(1/2) Sqrt[1 + 4 a^2 + 8 a b + 4 b^2], 1/2 Sqrt[1 + 4 a^2 + 8 a b + 4 b^2], -b + c}
+    {0, b - c, -c, -(1/2) Sqrt[1 + 4 a^2 + 8 a c + 4 c^2], 1/2 Sqrt[1 + 4 a^2 + 8 a c + 4 c^2]}
+
 
