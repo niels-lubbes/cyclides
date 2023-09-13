@@ -1055,7 +1055,7 @@ Output:
     S2 cyclide case is verified. BX={}, RGX={g1, g2}, EX={e1, e2, e3, e4, e01, e02, e03, e04, e11, e12, e13, e14, ep1, ep2, ep3, ep4}
 
 
-## Proposition 33 and Lemma 34 in Section 7
+## Proposition 33 and Lemma 35 in Section 7
 
 Below we initialize the five pairs of matrices in the proof of Proposition 33.
 
@@ -1074,7 +1074,9 @@ N5 = {{a1, 0, 0, 0}, {0, 0 , 0, a2}, {0, 0, a2, 1  }, {0, a2, 1 , 0  }};
 ```
 
 
-We recover from a matrix pair a quadratic form as asserted by Proposition 33.
+Below we recover from the matrix pairs the quadratic forms `qf1`, `qf2`, `qf3`, `qf4` and `qf5`.
+The quadratic forms q1, q2, q3 and q4 as defined in Proposition 33 correspond to `qf1`, `qf2`, `qf3` and `qf5`, respectively.
+The quadratic forms `qf2` and `qf4` are both equivalent to q2.
 
 
 ```Mathematica
